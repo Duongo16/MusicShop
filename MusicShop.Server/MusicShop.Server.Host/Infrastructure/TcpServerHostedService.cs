@@ -57,7 +57,7 @@ namespace MusicShop.Server.Host.Infrastructure
                     {
                         var req = JsonSerializer.Deserialize<TcpRequest>(json, TcpFraming.Json)
                                   ?? throw new Exception("Invalid request");
-                        switch (req.Op)
+                        switch (req.Op) 
                         {
                             case "Item.GetList":
                                 {
@@ -87,7 +87,7 @@ namespace MusicShop.Server.Host.Infrastructure
                     await TcpFraming.WriteJsonAsync(stream, resp, ct);
                 }
             }
-            catch (Exception ex) { /* log if needed */ }
+            catch (Exception ex) { }
             finally { client.Close(); }
         }
     }

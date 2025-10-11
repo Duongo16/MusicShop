@@ -3,12 +3,28 @@
   "WorkspaceRootPath": "F:\\1. LEARNING\\@FPTU\\S7\\PRN222\\MusicShop\\MusicShop.Server\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C9591AFF-1AF3-4F50-8338-0240BD27DA61}|MusicShop.Server.Host\\MusicShop.Server.Host.csproj|f:\\1. learning\\@fptu\\s7\\prn222\\musicshop\\musicshop.server\\musicshop.server.host\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C9591AFF-1AF3-4F50-8338-0240BD27DA61}|MusicShop.Server.Host\\MusicShop.Server.Host.csproj|solutionrelative:musicshop.server.host\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E71F63ED-3DD3-443A-AA04-207DB3BE02CA}|MusicShop.Server.Core\\MusicShop.Server.Core.csproj|f:\\1. learning\\@fptu\\s7\\prn222\\musicshop\\musicshop.server\\musicshop.server.core\\services\\impl\\categoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E71F63ED-3DD3-443A-AA04-207DB3BE02CA}|MusicShop.Server.Core\\MusicShop.Server.Core.csproj|solutionrelative:musicshop.server.core\\services\\impl\\categoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C9591AFF-1AF3-4F50-8338-0240BD27DA61}|MusicShop.Server.Host\\MusicShop.Server.Host.csproj|f:\\1. learning\\@fptu\\s7\\prn222\\musicshop\\musicshop.server\\musicshop.server.host\\infrastructure\\tcpserverhostedservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C9591AFF-1AF3-4F50-8338-0240BD27DA61}|MusicShop.Server.Host\\MusicShop.Server.Host.csproj|solutionrelative:musicshop.server.host\\infrastructure\\tcpserverhostedservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E71F63ED-3DD3-443A-AA04-207DB3BE02CA}|MusicShop.Server.Core\\MusicShop.Server.Core.csproj|f:\\1. learning\\@fptu\\s7\\prn222\\musicshop\\musicshop.server\\musicshop.server.core\\services\\impl\\itemservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E71F63ED-3DD3-443A-AA04-207DB3BE02CA}|MusicShop.Server.Core\\MusicShop.Server.Core.csproj|solutionrelative:musicshop.server.core\\services\\impl\\itemservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E71F63ED-3DD3-443A-AA04-207DB3BE02CA}|MusicShop.Server.Core\\MusicShop.Server.Core.csproj|f:\\1. learning\\@fptu\\s7\\prn222\\musicshop\\musicshop.server\\musicshop.server.core\\services\\icategoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E71F63ED-3DD3-443A-AA04-207DB3BE02CA}|MusicShop.Server.Core\\MusicShop.Server.Core.csproj|solutionrelative:musicshop.server.core\\services\\icategoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E71F63ED-3DD3-443A-AA04-207DB3BE02CA}|MusicShop.Server.Core\\MusicShop.Server.Core.csproj|f:\\1. learning\\@fptu\\s7\\prn222\\musicshop\\musicshop.server\\musicshop.server.core\\services\\iitemservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E71F63ED-3DD3-443A-AA04-207DB3BE02CA}|MusicShop.Server.Core\\MusicShop.Server.Core.csproj|solutionrelative:musicshop.server.core\\services\\iitemservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CEDB12EC-24E0-4E12-888D-697BD17A36AB}|MusicShop.Server.Data\\MusicShop.Server.Data.csproj|f:\\1. learning\\@fptu\\s7\\prn222\\musicshop\\musicshop.server\\musicshop.server.data\\repositories\\impl\\categoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CEDB12EC-24E0-4E12-888D-697BD17A36AB}|MusicShop.Server.Data\\MusicShop.Server.Data.csproj|solutionrelative:musicshop.server.data\\repositories\\impl\\categoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CEDB12EC-24E0-4E12-888D-697BD17A36AB}|MusicShop.Server.Data\\MusicShop.Server.Data.csproj|f:\\1. learning\\@fptu\\s7\\prn222\\musicshop\\musicshop.server\\musicshop.server.data\\repositories\\icategoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CEDB12EC-24E0-4E12-888D-697BD17A36AB}|MusicShop.Server.Data\\MusicShop.Server.Data.csproj|solutionrelative:musicshop.server.data\\repositories\\icategoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{CEDB12EC-24E0-4E12-888D-697BD17A36AB}|MusicShop.Server.Data\\MusicShop.Server.Data.csproj|f:\\1. learning\\@fptu\\s7\\prn222\\musicshop\\musicshop.server\\musicshop.server.data\\repositories\\impl\\itemrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -22,8 +38,73 @@
       "DocumentGroups": [
         {
           "DockedHeight": 286,
-          "SelectedChildIndex": 209,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CategoryService.cs",
+              "DocumentMoniker": "F:\\1. LEARNING\\@FPTU\\S7\\PRN222\\MusicShop\\MusicShop.Server\\MusicShop.Server.Core\\Services\\Impl\\CategoryService.cs",
+              "RelativeDocumentMoniker": "MusicShop.Server.Core\\Services\\Impl\\CategoryService.cs",
+              "ToolTip": "F:\\1. LEARNING\\@FPTU\\S7\\PRN222\\MusicShop\\MusicShop.Server\\MusicShop.Server.Core\\Services\\Impl\\CategoryService.cs",
+              "RelativeToolTip": "MusicShop.Server.Core\\Services\\Impl\\CategoryService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-10T15:11:32.946Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ItemService.cs",
+              "DocumentMoniker": "F:\\1. LEARNING\\@FPTU\\S7\\PRN222\\MusicShop\\MusicShop.Server\\MusicShop.Server.Core\\Services\\Impl\\ItemService.cs",
+              "RelativeDocumentMoniker": "MusicShop.Server.Core\\Services\\Impl\\ItemService.cs",
+              "ToolTip": "F:\\1. LEARNING\\@FPTU\\S7\\PRN222\\MusicShop\\MusicShop.Server\\MusicShop.Server.Core\\Services\\Impl\\ItemService.cs",
+              "RelativeToolTip": "MusicShop.Server.Core\\Services\\Impl\\ItemService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-10T15:11:20.771Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ICategoryService.cs",
+              "DocumentMoniker": "F:\\1. LEARNING\\@FPTU\\S7\\PRN222\\MusicShop\\MusicShop.Server\\MusicShop.Server.Core\\Services\\ICategoryService.cs",
+              "RelativeDocumentMoniker": "MusicShop.Server.Core\\Services\\ICategoryService.cs",
+              "ToolTip": "F:\\1. LEARNING\\@FPTU\\S7\\PRN222\\MusicShop\\MusicShop.Server\\MusicShop.Server.Core\\Services\\ICategoryService.cs",
+              "RelativeToolTip": "MusicShop.Server.Core\\Services\\ICategoryService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAABZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-10T15:10:48.801Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "IItemService.cs",
+              "DocumentMoniker": "F:\\1. LEARNING\\@FPTU\\S7\\PRN222\\MusicShop\\MusicShop.Server\\MusicShop.Server.Core\\Services\\IItemService.cs",
+              "RelativeDocumentMoniker": "MusicShop.Server.Core\\Services\\IItemService.cs",
+              "ToolTip": "F:\\1. LEARNING\\@FPTU\\S7\\PRN222\\MusicShop\\MusicShop.Server\\MusicShop.Server.Core\\Services\\IItemService.cs",
+              "RelativeToolTip": "MusicShop.Server.Core\\Services\\IItemService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-10T15:10:35.509Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ICategoryRepository.cs",
+              "DocumentMoniker": "F:\\1. LEARNING\\@FPTU\\S7\\PRN222\\MusicShop\\MusicShop.Server\\MusicShop.Server.Data\\Repositories\\ICategoryRepository.cs",
+              "RelativeDocumentMoniker": "MusicShop.Server.Data\\Repositories\\ICategoryRepository.cs",
+              "ToolTip": "F:\\1. LEARNING\\@FPTU\\S7\\PRN222\\MusicShop\\MusicShop.Server\\MusicShop.Server.Data\\Repositories\\ICategoryRepository.cs",
+              "RelativeToolTip": "MusicShop.Server.Data\\Repositories\\ICategoryRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-10T15:10:21.465Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:130:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
@@ -858,41 +939,28 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "ItemRepository.cs",
               "DocumentMoniker": "F:\\1. LEARNING\\@FPTU\\S7\\PRN222\\MusicShop\\MusicShop.Server\\MusicShop.Server.Data\\Repositories\\Impl\\ItemRepository.cs",
               "RelativeDocumentMoniker": "MusicShop.Server.Data\\Repositories\\Impl\\ItemRepository.cs",
               "ToolTip": "F:\\1. LEARNING\\@FPTU\\S7\\PRN222\\MusicShop\\MusicShop.Server\\MusicShop.Server.Data\\Repositories\\Impl\\ItemRepository.cs",
               "RelativeToolTip": "MusicShop.Server.Data\\Repositories\\Impl\\ItemRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEoAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAACEAAAAAAAAAAAAowDkAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-10T01:32:35.834Z",
+              "WhenOpened": "2025-10-10T15:06:49.372Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "F:\\1. LEARNING\\@FPTU\\S7\\PRN222\\MusicShop\\MusicShop.Server\\MusicShop.Server.Host\\Program.cs",
-              "RelativeDocumentMoniker": "MusicShop.Server.Host\\Program.cs",
-              "ToolTip": "F:\\1. LEARNING\\@FPTU\\S7\\PRN222\\MusicShop\\MusicShop.Server\\MusicShop.Server.Host\\Program.cs",
-              "RelativeToolTip": "MusicShop.Server.Host\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "DocumentIndex": 4,
+              "Title": "CategoryRepository.cs",
+              "DocumentMoniker": "F:\\1. LEARNING\\@FPTU\\S7\\PRN222\\MusicShop\\MusicShop.Server\\MusicShop.Server.Data\\Repositories\\Impl\\CategoryRepository.cs",
+              "RelativeDocumentMoniker": "MusicShop.Server.Data\\Repositories\\Impl\\CategoryRepository.cs",
+              "ToolTip": "F:\\1. LEARNING\\@FPTU\\S7\\PRN222\\MusicShop\\MusicShop.Server\\MusicShop.Server.Data\\Repositories\\Impl\\CategoryRepository.cs",
+              "RelativeToolTip": "MusicShop.Server.Data\\Repositories\\Impl\\CategoryRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-10T01:30:25.986Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "TcpServerHostedService.cs",
-              "DocumentMoniker": "F:\\1. LEARNING\\@FPTU\\S7\\PRN222\\MusicShop\\MusicShop.Server\\MusicShop.Server.Host\\Infrastructure\\TcpServerHostedService.cs",
-              "RelativeDocumentMoniker": "MusicShop.Server.Host\\Infrastructure\\TcpServerHostedService.cs",
-              "ToolTip": "F:\\1. LEARNING\\@FPTU\\S7\\PRN222\\MusicShop\\MusicShop.Server\\MusicShop.Server.Host\\Infrastructure\\TcpServerHostedService.cs",
-              "RelativeToolTip": "MusicShop.Server.Host\\Infrastructure\\TcpServerHostedService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADQAAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-10T01:29:15.433Z",
+              "WhenOpened": "2025-10-10T15:06:29.466Z",
               "EditorCaption": ""
             }
           ]
@@ -956,7 +1024,7 @@
           ]
         },
         {
-          "DockedHeight": 18,
+          "DockedHeight": 286,
           "SelectedChildIndex": -1,
           "Children": [
             {

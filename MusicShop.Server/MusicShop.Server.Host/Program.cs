@@ -11,14 +11,13 @@ using MusicShop.Server.Data.Repositories.Impl;
 using MusicShop.Server.Host.Infrastructure; 
 
 var builder = Host.CreateApplicationBuilder(args);
-
+ 
 builder.Services.Configure<TcpServerOptions>(builder.Configuration.GetSection("Tcp"));
 builder.Services.AddLogging();
 
 builder.Services.AddDbContext<AppDbContext>(opt =>
 {
-    var conn = builder.Configuration.GetConnectionString("Default")
-              ?? "Server=.;Database=MusicShopDb;Trusted_Connection=True;TrustServerCertificate=True";
+    var conn = builder.Configuration.GetConnectionString("Default");
     opt.UseSqlServer(conn);
 });
 

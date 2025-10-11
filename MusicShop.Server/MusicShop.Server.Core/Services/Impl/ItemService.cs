@@ -12,7 +12,7 @@ namespace MusicShop.Server.Core.Services.Impl
         public async Task<PagedResult<ItemDetailOutDto>> GetListAsync(string? q, int page = 1, int pageSize = 12, CancellationToken ct = default)
         {
             if (page <= 0) page = 1;
-            if (pageSize <= 0 || pageSize > 60) pageSize = 12; // giới hạn an toàn
+            if (pageSize <= 0 || pageSize > 60) pageSize = 12; 
 
             var items = await _repo.GetListAsync(q, page, pageSize, ct);
             var total = await _repo.CountAsync(q, ct);

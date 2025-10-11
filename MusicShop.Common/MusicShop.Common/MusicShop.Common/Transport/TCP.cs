@@ -5,4 +5,6 @@
 
     public record GetListPayload(string? Q, int Page, int PageSize);
     public record GetByIdPayload(Guid Id);
+    public record UpsertPayload(int? Id, string Name, string? Description);
+    public record DeletePayload(int Id);
 }

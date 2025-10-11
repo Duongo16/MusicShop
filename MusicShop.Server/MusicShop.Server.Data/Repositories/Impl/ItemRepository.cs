@@ -19,10 +19,8 @@ namespace MusicShop.Server.Data.Repositories.Impl
                 query = query.Where(x => x.Name.Contains(q) || x.Sku.Contains(q));
             }
 
-            // Sắp xếp mới nhất trước
             query = query.OrderByDescending(x => x.CreatedAt);
 
-            // Phân trang
             var skip = (page - 1) * pageSize;
 
             return await query

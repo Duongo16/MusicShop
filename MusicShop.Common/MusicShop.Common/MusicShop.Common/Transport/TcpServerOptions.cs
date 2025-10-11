@@ -2,7 +2,7 @@
 {
     public class TcpServerOptions
     {
-        public string Host { get; set; } = "0.0.0.0";
-        public int Port { get; set; } = 5055;
+        public static string Host { get; set; } = "127.0.0.1";
+        public static int Port { get; set; } = 5055;
     }
 }
