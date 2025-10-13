@@ -7,6 +7,22 @@
       "RelativeMoniker": "D:0:0:{6B259D7B-FF6F-4CB2-A444-2150C9B95F14}|MusicShop.Common\\MusicShop.Common.csproj|solutionrelative:musicshop.common\\transport\\tcp.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{6B259D7B-FF6F-4CB2-A444-2150C9B95F14}|MusicShop.Common\\MusicShop.Common.csproj|f:\\1. learning\\@fptu\\s7\\prn222\\musicshop\\musicshop.common\\musicshop.common\\musicshop.common\\dtos\\itemdetailoutdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B259D7B-FF6F-4CB2-A444-2150C9B95F14}|MusicShop.Common\\MusicShop.Common.csproj|solutionrelative:musicshop.common\\dtos\\itemdetailoutdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B259D7B-FF6F-4CB2-A444-2150C9B95F14}|MusicShop.Common\\MusicShop.Common.csproj|f:\\1. learning\\@fptu\\s7\\prn222\\musicshop\\musicshop.common\\musicshop.common\\musicshop.common\\dtos\\categorydetailoutdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B259D7B-FF6F-4CB2-A444-2150C9B95F14}|MusicShop.Common\\MusicShop.Common.csproj|solutionrelative:musicshop.common\\dtos\\categorydetailoutdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B259D7B-FF6F-4CB2-A444-2150C9B95F14}|MusicShop.Common\\MusicShop.Common.csproj|f:\\1. learning\\@fptu\\s7\\prn222\\musicshop\\musicshop.common\\musicshop.common\\musicshop.common\\dtos\\branddetailoutdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B259D7B-FF6F-4CB2-A444-2150C9B95F14}|MusicShop.Common\\MusicShop.Common.csproj|solutionrelative:musicshop.common\\dtos\\branddetailoutdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B259D7B-FF6F-4CB2-A444-2150C9B95F14}|MusicShop.Common\\MusicShop.Common.csproj|f:\\1. learning\\@fptu\\s7\\prn222\\musicshop\\musicshop.common\\musicshop.common\\musicshop.common\\models\\entities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B259D7B-FF6F-4CB2-A444-2150C9B95F14}|MusicShop.Common\\MusicShop.Common.csproj|solutionrelative:musicshop.common\\models\\entities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{6B259D7B-FF6F-4CB2-A444-2150C9B95F14}|MusicShop.Common\\MusicShop.Common.csproj|f:\\1. learning\\@fptu\\s7\\prn222\\musicshop\\musicshop.common\\musicshop.common\\musicshop.common\\transport\\tcpserveroptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6B259D7B-FF6F-4CB2-A444-2150C9B95F14}|MusicShop.Common\\MusicShop.Common.csproj|solutionrelative:musicshop.common\\transport\\tcpserveroptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -17,18 +33,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{6B259D7B-FF6F-4CB2-A444-2150C9B95F14}|MusicShop.Common\\MusicShop.Common.csproj|f:\\1. learning\\@fptu\\s7\\prn222\\musicshop\\musicshop.common\\musicshop.common\\musicshop.common\\transport\\tcpclienthelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6B259D7B-FF6F-4CB2-A444-2150C9B95F14}|MusicShop.Common\\MusicShop.Common.csproj|solutionrelative:musicshop.common\\transport\\tcpclienthelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6B259D7B-FF6F-4CB2-A444-2150C9B95F14}|MusicShop.Common\\MusicShop.Common.csproj|f:\\1. learning\\@fptu\\s7\\prn222\\musicshop\\musicshop.common\\musicshop.common\\musicshop.common\\dtos\\categorydetailoutdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6B259D7B-FF6F-4CB2-A444-2150C9B95F14}|MusicShop.Common\\MusicShop.Common.csproj|solutionrelative:musicshop.common\\dtos\\categorydetailoutdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6B259D7B-FF6F-4CB2-A444-2150C9B95F14}|MusicShop.Common\\MusicShop.Common.csproj|f:\\1. learning\\@fptu\\s7\\prn222\\musicshop\\musicshop.common\\musicshop.common\\musicshop.common\\dtos\\itemdetailoutdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6B259D7B-FF6F-4CB2-A444-2150C9B95F14}|MusicShop.Common\\MusicShop.Common.csproj|solutionrelative:musicshop.common\\dtos\\itemdetailoutdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6B259D7B-FF6F-4CB2-A444-2150C9B95F14}|MusicShop.Common\\MusicShop.Common.csproj|f:\\1. learning\\@fptu\\s7\\prn222\\musicshop\\musicshop.common\\musicshop.common\\musicshop.common\\models\\entities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6B259D7B-FF6F-4CB2-A444-2150C9B95F14}|MusicShop.Common\\MusicShop.Common.csproj|solutionrelative:musicshop.common\\models\\entities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,7 +42,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 208,
+          "SelectedChildIndex": 209,
           "Children": [
             {
               "$type": "Bookmark",
@@ -874,33 +878,44 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "BrandDetailOutDto.cs",
+              "DocumentMoniker": "F:\\1. LEARNING\\@FPTU\\S7\\PRN222\\MusicShop\\MusicShop.Common\\MusicShop.Common\\MusicShop.Common\\DTOs\\BrandDetailOutDto.cs",
+              "RelativeDocumentMoniker": "MusicShop.Common\\DTOs\\BrandDetailOutDto.cs",
+              "ToolTip": "F:\\1. LEARNING\\@FPTU\\S7\\PRN222\\MusicShop\\MusicShop.Common\\MusicShop.Common\\MusicShop.Common\\DTOs\\BrandDetailOutDto.cs",
+              "RelativeToolTip": "MusicShop.Common\\DTOs\\BrandDetailOutDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-11T12:04:02.447Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "TCP.cs",
               "DocumentMoniker": "F:\\1. LEARNING\\@FPTU\\S7\\PRN222\\MusicShop\\MusicShop.Common\\MusicShop.Common\\MusicShop.Common\\Transport\\TCP.cs",
               "RelativeDocumentMoniker": "MusicShop.Common\\Transport\\TCP.cs",
               "ToolTip": "F:\\1. LEARNING\\@FPTU\\S7\\PRN222\\MusicShop\\MusicShop.Common\\MusicShop.Common\\MusicShop.Common\\Transport\\TCP.cs",
               "RelativeToolTip": "MusicShop.Common\\Transport\\TCP.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAASAAAAAAAAAA==",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAxwA4AAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-10T15:17:15.739Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "TcpServerOptions.cs",
               "DocumentMoniker": "F:\\1. LEARNING\\@FPTU\\S7\\PRN222\\MusicShop\\MusicShop.Common\\MusicShop.Common\\MusicShop.Common\\Transport\\TcpServerOptions.cs",
               "RelativeDocumentMoniker": "MusicShop.Common\\Transport\\TcpServerOptions.cs",
               "ToolTip": "F:\\1. LEARNING\\@FPTU\\S7\\PRN222\\MusicShop\\MusicShop.Common\\MusicShop.Common\\MusicShop.Common\\Transport\\TcpServerOptions.cs",
               "RelativeToolTip": "MusicShop.Common\\Transport\\TcpServerOptions.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-10T15:16:40.214Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-10T15:16:40.214Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "TcpFraming.cs",
               "DocumentMoniker": "F:\\1. LEARNING\\@FPTU\\S7\\PRN222\\MusicShop\\MusicShop.Common\\MusicShop.Common\\MusicShop.Common\\Transport\\TcpFraming.cs",
               "RelativeDocumentMoniker": "MusicShop.Common\\Transport\\TcpFraming.cs",
@@ -908,60 +923,55 @@
               "RelativeToolTip": "MusicShop.Common\\Transport\\TcpFraming.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-10T15:16:36.423Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-10T15:16:36.423Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "TcpClientHelper.cs",
               "DocumentMoniker": "F:\\1. LEARNING\\@FPTU\\S7\\PRN222\\MusicShop\\MusicShop.Common\\MusicShop.Common\\MusicShop.Common\\Transport\\TcpClientHelper.cs",
               "RelativeDocumentMoniker": "MusicShop.Common\\Transport\\TcpClientHelper.cs",
               "ToolTip": "F:\\1. LEARNING\\@FPTU\\S7\\PRN222\\MusicShop\\MusicShop.Common\\MusicShop.Common\\MusicShop.Common\\Transport\\TcpClientHelper.cs",
               "RelativeToolTip": "MusicShop.Common\\Transport\\TcpClientHelper.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAABFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-10T15:16:35.13Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-10T15:16:35.13Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 4,
               "Title": "Entities.cs",
               "DocumentMoniker": "F:\\1. LEARNING\\@FPTU\\S7\\PRN222\\MusicShop\\MusicShop.Common\\MusicShop.Common\\MusicShop.Common\\Models\\Entities.cs",
               "RelativeDocumentMoniker": "MusicShop.Common\\Models\\Entities.cs",
               "ToolTip": "F:\\1. LEARNING\\@FPTU\\S7\\PRN222\\MusicShop\\MusicShop.Common\\MusicShop.Common\\MusicShop.Common\\Models\\Entities.cs",
               "RelativeToolTip": "MusicShop.Common\\Models\\Entities.cs",
-              "ViewState": "AgIAACYAAAAAAAAAAAA3wDkAAABIAAAAAAAAAA==",
+              "ViewState": "AgIAABsAAAAAAAAAAAD4vysAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-10T15:04:28.322Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-10T15:04:28.322Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 1,
               "Title": "ItemDetailOutDto.cs",
               "DocumentMoniker": "F:\\1. LEARNING\\@FPTU\\S7\\PRN222\\MusicShop\\MusicShop.Common\\MusicShop.Common\\MusicShop.Common\\DTOs\\ItemDetailOutDto.cs",
               "RelativeDocumentMoniker": "MusicShop.Common\\DTOs\\ItemDetailOutDto.cs",
               "ToolTip": "F:\\1. LEARNING\\@FPTU\\S7\\PRN222\\MusicShop\\MusicShop.Common\\MusicShop.Common\\MusicShop.Common\\DTOs\\ItemDetailOutDto.cs",
               "RelativeToolTip": "MusicShop.Common\\DTOs\\ItemDetailOutDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAYwBwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-10T15:04:22.94Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-10T15:04:22.94Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "CategoryDetailOutDto.cs",
               "DocumentMoniker": "F:\\1. LEARNING\\@FPTU\\S7\\PRN222\\MusicShop\\MusicShop.Common\\MusicShop.Common\\MusicShop.Common\\DTOs\\CategoryDetailOutDto.cs",
               "RelativeDocumentMoniker": "MusicShop.Common\\DTOs\\CategoryDetailOutDto.cs",
               "ToolTip": "F:\\1. LEARNING\\@FPTU\\S7\\PRN222\\MusicShop\\MusicShop.Common\\MusicShop.Common\\MusicShop.Common\\DTOs\\CategoryDetailOutDto.cs",
               "RelativeToolTip": "MusicShop.Common\\DTOs\\CategoryDetailOutDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-10T15:04:13.909Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-10T15:04:13.909Z"
             }
           ]
         },

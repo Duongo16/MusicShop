@@ -4,23 +4,23 @@ using MusicShop.Server.Data.Repositories;
 
 namespace MusicShop.Server.Core.Services.Impl
 {
-    public class CategoryService : ICategoryService
+    public class BrandService : IBrandService
     {
-        private readonly ICategoryRepository _repo;
-        public CategoryService(ICategoryRepository repo) => _repo = repo;
-        public async Task<CategoryDetailOutDto?> GetByIdAsync(int id, CancellationToken ct = default)
-        {
-            if (id <= 0) return null;
-            return await _repo.GetByIdAsync(id, ct);
-        }
+        private readonly IBrandRepository _repo;
+        public BrandService(IBrandRepository repo) => _repo = repo;
 
-        public async Task<PagedResult<CategoryDetailOutDto>> GetListAsync(string? q, int page = 1, int pageSize = 12, CancellationToken ct = default)
+        public Task<BrandDetailOutDto?> GetByIdAsync(int id, CancellationToken ct = default)
+            => id <= 0 ? Task.FromResult<BrandDetailOutDto?>(null) : _repo.GetByIdAsync(id, ct);
+
+        public async Task<PagedResult<BrandDetailOutDto>> GetListAsync(string? q, int page = 1, int pageSize = 12, CancellationToken ct = default)
         {
             if (page <= 0) page = 1;
             if (pageSize <= 0 || pageSize > 60) pageSize = 12;
+
             var items = await _repo.GetListAsync(q, page, pageSize, ct);
             var total = await _repo.CountAsync(q, ct);
-            return new PagedResult<CategoryDetailOutDto>
+
+            return new PagedResult<BrandDetailOutDto>
             {
                 Items = items,
                 Page = page,

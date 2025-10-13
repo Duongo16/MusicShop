@@ -1,0 +1,23 @@
+﻿<Window x:Class="MusicShop.WPF.Views.Brand.BrandEditDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Brand" Height="190" Width="420"
+        WindowStartupLocation="CenterOwner"
+        Background="{StaticResource BgWindow}"
+        ResizeMode="NoResize" WindowStyle="ToolWindow">
+    <Grid Margin="16" Background="{StaticResource BgCard}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Name" Foreground="{StaticResource FgMuted}" Margin="4,8,0,4"/>
+        <TextBox Grid.Row="1" Style="{StaticResource TextBoxBase}" Text="{Binding BrandName, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+            <Button Content="Cancel" Style="{StaticResource ButtonGhost}" Margin="0,0,8,0" Click="Cancel_Click"/>
+            <Button Content="Save"   Style="{StaticResource ButtonPrimary}" Click="Save_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MusicShop.Common.DTOs;
+using MusicShop.Common.Models;
 
 namespace MusicShop.Server.Data.Repositories.Impl
 {
@@ -55,6 +56,36 @@ namespace MusicShop.Server.Data.Repositories.Impl
                 })
                 .Skip(skip).Take(pageSize)
                 .ToListAsync(ct);
+        }
+
+        public async Task<int> CreateAsync(string name, CancellationToken ct = default)
+        {
+            var entity = new Category { Name = name };
+            _db.Categories.Add(entity);
+            await _db.SaveChangesAsync(ct);
+            return entity.Id;
+        }
+
+        public async Task<bool> UpdateAsync(int id, string name, CancellationToken ct = default)
+        {
+            var entity = await _db.Categories.FirstOrDefaultAsync(x => x.Id == id, ct);
+            if (entity is null) return false;
+
+            entity.Name = name;
+            await _db.SaveChangesAsync(ct);
+            return true;
+        }
+
+        public async Task<bool> DeleteAsync(int id, CancellationToken ct = default)
+        {
+            var entity = await _db.Categories.Include(c => c.Items).FirstOrDefaultAsync(x => x.Id == id, ct);
+            if (entity is null) return false;
+
+            if (entity.Items.Any()) return false;
+
+            _db.Categories.Remove(entity);
+            await _db.SaveChangesAsync(ct);
+            return true;
         }
     }
 }

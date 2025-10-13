@@ -1,17 +1,19 @@
-﻿
-using MusicShop.Common.DTOs;
+﻿using MusicShop.Common.DTOs;
 using MusicShop.Common.Models;
 using MusicShop.Common.Transport;
+using MusicShop.WPF.Views.Category;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
 namespace MusicShop.WPF.ViewModels;
+
 public class CategoryListViewModel : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
-    void OnPropertyChanged([CallerMemberName] string? n = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(n));
+    void OnPropertyChanged([CallerMemberName] string? n = null)
+        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(n));
 
     private readonly TcpClientHelper _tcp = new();
     private readonly string _host;
@@ -20,6 +22,7 @@ public class CategoryListViewModel : INotifyPropertyChanged
     public CategoryListViewModel(string host = "127.0.0.1", int port = 5055)
     {
         _host = host; _port = port;
+
         SearchCommand = new RelayCommand(async _ => { Page = 1; await LoadAsync(); });
         RefreshCommand = new RelayCommand(async _ => await LoadAsync());
         NextPageCommand = new RelayCommand(async _ => { if (Page * PageSize < Total) { Page++; await LoadAsync(); } });
@@ -46,7 +49,12 @@ public class CategoryListViewModel : INotifyPropertyChanged
 
     public string PageInfo => $"Page {Page} / {Math.Max(1, (int)Math.Ceiling((double)Total / PageSize))}  •  {Total} categories";
 
-    public string? StatusText { get; set; }
+    private string? _statusText;
+    public string? StatusText
+    {
+        get => _statusText;
+        set { _statusText = value; OnPropertyChanged(); }
+    }
 
     public ICommand SearchCommand { get; }
     public ICommand RefreshCommand { get; }
@@ -58,83 +66,102 @@ public class CategoryListViewModel : INotifyPropertyChanged
 
     public async Task InitAsync()
     {
+        StatusText = "Đang kết nối server...";
         var ok = await _tcp.ConnectAsync(_host, _port);
-        if (!ok) { StatusText = "Server chưa được kết nối"; OnPropertyChanged(nameof(StatusText)); return; }
+        if (!ok) { StatusText = "Server chưa được kết nối"; return; }
+
         await LoadAsync();
+        StatusText = "Sẵn sàng.";
     }
 
     public async Task LoadAsync()
     {
+        if (!_tcp.IsConnected)
+        {
+            StatusText = "Server chưa được kết nối";
+            return;
+        }
+
         try
         {
             var res = await _tcp.SendAsync<PagedResult<CategoryDetailOutDto>>(
-                "Category.GetList", new CategoryGetListPayload(Query, Page, PageSize));
+                "Category.GetList", new GetListPayload(Query, Page, PageSize));
 
             Items.Clear();
             foreach (var c in res?.Items ?? []) Items.Add(c);
             Total = res?.TotalCount ?? 0;
+            StatusText = $"Loaded {Items.Count} / {Total}";
         }
         catch (Exception ex)
         {
-            StatusText = ex.Message; OnPropertyChanged(nameof(StatusText));
+            StatusText = ex.Message;
         }
     }
 
     private async Task AddAsync()
     {
-        var dlg = new CategoryEditDialog(); // rỗng = create
+        var dlg = new CategoryEditDialog(); 
         if (dlg.ShowDialog() == true)
         {
-            var p = new CategoryUpsertPayload(null, dlg.CategoryName, dlg.CategoryDescription);
+            var p = new CategoryUpsertPayload(null, dlg.CategoryName);
             try
             {
-                var ok = await _tcp.SendAsync<bool>("Category.Create", p);
-                if (ok == true) await LoadAsync();
+                var newId = await _tcp.SendAsync<int>("Category.Create", p);
+                StatusText = newId > 0 ? $"Created category #{newId}" : "Create failed";
+                await LoadAsync();
             }
-            catch (Exception ex) { StatusText = ex.Message; OnPropertyChanged(nameof(StatusText)); }
+            catch (Exception ex) { StatusText = ex.Message; }
         }
     }
 
     private async Task EditAsync(CategoryDetailOutDto? row)
     {
         if (row is null) return;
+
         var dlg = new CategoryEditDialog
         {
             CategoryId = row.Id,
             CategoryName = row.Name,
-            CategoryDescription = row.Description
         };
+
         if (dlg.ShowDialog() == true)
         {
-            var p = new CategoryUpsertPayload(row.Id, dlg.CategoryName, dlg.CategoryDescription);
+            var p = new CategoryUpsertPayload(row.Id, dlg.CategoryName);
             try
             {
                 var ok = await _tcp.SendAsync<bool>("Category.Update", p);
-                if (ok == true) await LoadAsync();
+                StatusText = ok ? "Updated" : "Update failed";
+                if (ok) await LoadAsync();
             }
-            catch (Exception ex) { StatusText = ex.Message; OnPropertyChanged(nameof(StatusText)); }
+            catch (Exception ex) { StatusText = ex.Message; }
         }
     }
 
     private async Task DeleteAsync(CategoryDetailOutDto? row)
     {
         if (row is null) return;
-        if (System.Windows.MessageBox.Show($"Delete category '{row.Name}'?", "Confirm", System.Windows.MessageBoxButton.YesNo,
-                                           System.Windows.MessageBoxImage.Warning) != System.Windows.MessageBoxResult.Yes) return;
+
+        if (System.Windows.MessageBox.Show(
+                $"Delete category '{row.Name}'?",
+                "Confirm",
+                System.Windows.MessageBoxButton.YesNo,
+                System.Windows.MessageBoxImage.Warning) != System.Windows.MessageBoxResult.Yes)
+            return;
 
         try
         {
-            var ok = await _tcp.SendAsync<bool>("Category.Delete", new CategoryDeletePayload(row.Id));
-            if (ok == true) await LoadAsync();
+            var ok = await _tcp.SendAsync<bool>("Category.Delete", new DeletePayload(row.Id));
+            StatusText = ok ? "Deleted" : "Delete failed (maybe category has items)";
+            if (ok) await LoadAsync();
         }
-        catch (Exception ex) { StatusText = ex.Message; OnPropertyChanged(nameof(StatusText)); }
+        catch (Exception ex) { StatusText = ex.Message; }
     }
 }
 
-// RelayCommand tối giản
 public class RelayCommand : ICommand
 {
-    private readonly Func<object?, Task> _exec; private readonly Predicate<object?>? _can;
+    private readonly Func<object?, Task> _exec; 
+    private readonly Predicate<object?>? _can;
     public RelayCommand(Func<object?, Task> exec, Predicate<object?>? can = null) { _exec = exec; _can = can; }
     public bool CanExecute(object? p) => _can?.Invoke(p) ?? true;
     public event EventHandler? CanExecuteChanged { add { } remove { } }

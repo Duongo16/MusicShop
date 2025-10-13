@@ -9,5 +9,6 @@ namespace MusicShop.Common.DTOs
         public string Name { get; set; } = null!;
         public int? ParentId { get; set; }
         public Category? Parent { get; set; }
+        public int ItemsCount { get; set; }
     }
 }

@@ -3,11 +3,11 @@ using MusicShop.Common.Models;
 
 namespace MusicShop.Server.Core.Services
 {
-    public interface ICategoryService
+    public interface IBrandService
     {
-        Task<PagedResult<CategoryDetailOutDto>> GetListAsync(string? q, int page = 1, int pageSize = 12, CancellationToken ct = default);
+        Task<BrandDetailOutDto?> GetByIdAsync(int id, CancellationToken ct = default);
+        Task<PagedResult<BrandDetailOutDto>> GetListAsync(string? q, int page = 1, int pageSize = 12, CancellationToken ct = default);
 
-        Task<CategoryDetailOutDto?> GetByIdAsync(int id, CancellationToken ct = default);
         Task<int> CreateAsync(string name, CancellationToken ct = default);
         Task<bool> UpdateAsync(int id, string name, CancellationToken ct = default);
         Task<bool> DeleteAsync(int id, CancellationToken ct = default);
