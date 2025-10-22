@@ -59,10 +59,12 @@
                 <StackPanel Grid.Column="3" Margin="0,0,8,0">
                     <TextBlock Text="Brand" Foreground="{StaticResource FgMuted}" FontSize="12" Margin="2,0,0,4"/>
                     <ComboBox Style="{StaticResource ComboBoxBase}"
-                              ItemsSource="{Binding Brands}"
-                              SelectedItem="{Binding SelectedBrand}"
-                              DisplayMemberPath="Name"
-                              ToolTip="Filter by brand"/>
+                        ItemsSource="{Binding Brands}"
+                        SelectedValuePath="Name"
+                        SelectedValue="{Binding SelectedBrandName, Mode=TwoWay}"
+                        DisplayMemberPath="Name"
+                        ToolTip="Filter by brand"
+                        TextSearch.TextPath="Name"/>
                 </StackPanel>
 
                 <!-- Category -->
@@ -113,87 +115,136 @@
         </DockPanel>
 
         <!-- Grid -->
-        <Border Background="{StaticResource BgCard}" BorderBrush="{StaticResource Border}" BorderThickness="1" CornerRadius="12">
-            <DataGrid ItemsSource="{Binding Items}"
-                      Style="{StaticResource DataGridBase}"
-                      AlternationCount="2"
-                      MouseDoubleClick="DataGrid_MouseDoubleClick">
-                <DataGrid.Columns>
+        <DataGrid ItemsSource="{Binding Items}"
+          Style="{StaticResource DataGridBase}"
+          AlternationCount="2"
+          MouseDoubleClick="DataGrid_MouseDoubleClick"
+          HeadersVisibility="Column"
+          ColumnHeaderHeight="36"
+          FrozenColumnCount="1"
+          CanUserReorderColumns="True"
+          CanUserResizeColumns="True"
+          EnableRowVirtualization="True"
+          GridLinesVisibility="None">
 
-                    <!-- Image -->
-                    <DataGridTemplateColumn Header="Image" Width="72" MinWidth="72">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Border Width="48" Height="48" CornerRadius="8"
-                                        Background="{StaticResource BgMute}"
-                                        BorderBrush="{StaticResource Border}" BorderThickness="1">
-                                    <Image Source="{Binding ImageUrl}" Stretch="UniformToFill" SnapsToDevicePixels="True"/>
-                                </Border>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+            <DataGrid.Columns>
 
-                    <DataGridTextColumn Header="SKU" Binding="{Binding Sku}" Width="140"/>
+                <!-- 1) Image (frozen) -->
+                <DataGridTemplateColumn Header="Img" Width="64" MinWidth="64" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Border Width="40" Height="40" CornerRadius="8"
+                            Background="{StaticResource BgMute}"
+                            BorderBrush="{StaticResource Border}" BorderThickness="1">
+                                <Image Source="{Binding ImageUrl}" Stretch="UniformToFill" SnapsToDevicePixels="True"/>
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
-                    <!-- Name + Description -->
-                    <DataGridTemplateColumn Header="Name" Width="*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <TextBlock Text="{Binding Name}" FontWeight="SemiBold" Foreground="{StaticResource FgPrimary}"/>
-                                    <TextBlock Text="{Binding Description}" Foreground="{StaticResource FgMuted}"
-                                               FontSize="12" TextTrimming="CharacterEllipsis" MaxWidth="520"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                <!-- 2) Name (chiếm rộng, gồm Name + Description) -->
+                <DataGridTemplateColumn Header="Name" Width="2*"
+                                SortMemberPath="Name" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Name}"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource FgPrimary}"
+                                   TextTrimming="CharacterEllipsis"
+                                           VerticalAlignment="Center"
+                                   ToolTip="{Binding Name}"/>
+                                <TextBlock Text="{Binding Description}"
+                                   Foreground="{StaticResource FgMuted}"
+                                   FontSize="12"
+                                   TextTrimming="CharacterEllipsis"
+                                   ToolTip="{Binding Description}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
-                    <!-- Type -->
-                    <DataGridTemplateColumn Header="Type" Width="120">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Border CornerRadius="8" Padding="8,2" Background="{StaticResource TagBg}">
-                                    <TextBlock Text="{Binding ItemType}" FontSize="12" Foreground="{StaticResource FgPrimary}"/>
-                                </Border>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                <!-- 3) SKU (ngắn) -->
+                <DataGridTextColumn Header="SKU" Width="120" MinWidth="100"
+                            Binding="{Binding Sku}" SortMemberPath="Sku" IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+                            <Setter Property="ToolTip" Value="{Binding Sku}"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
 
-                    <DataGridTextColumn Header="Brand" Binding="{Binding Brand.Name}" Width="160"/>
-                    <DataGridTextColumn Header="Category" Binding="{Binding Category.Name}" Width="160"/>
+                <!-- 4) Type (chip) -->
+                <DataGridTemplateColumn Header="Type" Width="96" MinWidth="88" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Border CornerRadius="8" Padding="8,2" Background="{StaticResource TagBg}">
+                                <TextBlock Text="{Binding ItemType}" FontSize="12" Foreground="{StaticResource FgPrimary}"
+                                   TextTrimming="CharacterEllipsis" ToolTip="{Binding ItemType}"
+                                           VerticalAlignment="Center"/>
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
-                    <!-- Status -->
-                    <DataGridTemplateColumn Header="Status" Width="120">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Border CornerRadius="10" Padding="8,2" Background="{StaticResource TagBg}">
-                                    <TextBlock Text="{Binding Status}" FontSize="12"/>
-                                </Border>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                <!-- 5) Brand -->
+                <DataGridTextColumn Header="Brand" Width="140" MinWidth="120"
+                            Binding="{Binding Brand.Name}" SortMemberPath="Brand.Name" IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+                            <Setter Property="ToolTip" Value="{Binding Brand.Name}"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
 
-                    <!-- Price -->
-                    <DataGridTemplateColumn Header="Price" Width="120">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Price, StringFormat={}{0:N0}}" HorizontalAlignment="Right">
+                <!-- 6) Category -->
+                <DataGridTextColumn Header="Category" Width="140" MinWidth="120"
+                            Binding="{Binding Category.Name}" SortMemberPath="Category.Name" IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+                            <Setter Property="ToolTip" Value="{Binding Category.Name}"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <!-- 7) Status (chip) -->
+                <DataGridTemplateColumn Header="Status" Width="112" MinWidth="100" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Border CornerRadius="10" Padding="8,2" Background="{StaticResource TagBg}">
+                                <TextBlock Text="{Binding Status}" FontSize="12"
+                                   TextTrimming="CharacterEllipsis" ToolTip="{Binding Status}"
+                                           VerticalAlignment="Center"/>
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!-- 8) Price (gộp sale + gạch giá gốc khi có sale) -->
+                <DataGridTemplateColumn Header="Price" Width="140" MinWidth="120" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <!-- Giá gốc -->
+                                <TextBlock Text="{Binding Price, StringFormat={}{0:N0}}"
+                                   Margin="0,0,6,0"
+                                   Foreground="{StaticResource FgMuted}">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
-                                            <Setter Property="Foreground" Value="{StaticResource FgPrimary}"/>
-                                            <!-- gạch khi có SalePrice -->
+                                            <Setter Property="TextDecorations" Value="{x:Null}"/>
                                             <Style.Triggers>
+                                                <!-- Không có SalePrice: hiển thị bình thường, đậm màu -->
                                                 <DataTrigger Binding="{Binding SalePrice}" Value="{x:Null}">
+                                                    <Setter Property="Foreground" Value="{StaticResource FgPrimary}"/>
                                                     <Setter Property="TextDecorations" Value="{x:Null}"/>
                                                 </DataTrigger>
-                                                <DataTrigger Binding="{Binding SalePrice}" Value="{x:Null}"  />
-                                                <DataTrigger Binding="{Binding SalePrice}" Value="">
-                                                    <Setter Property="TextDecorations" Value="{x:Null}"/>
-                                                </DataTrigger>
-                                                <!-- khi SalePrice khác null & khác rỗng -->
-                                                <DataTrigger Binding="{Binding SalePrice}" Value="{x:Null}">
-                                                    <!-- no-op (đã xử lý ở trên) -->
-                                                </DataTrigger>
+                                                <!-- Có SalePrice: gạch -->
                                                 <DataTrigger Binding="{Binding SalePrice}">
                                                     <Setter Property="TextDecorations" Value="Strikethrough"/>
                                                 </DataTrigger>
@@ -201,88 +252,107 @@
                                         </Style>
                                     </TextBlock.Style>
                                 </TextBlock>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
 
-                    <!-- Sale -->
-                    <DataGridTemplateColumn Header="Sale" Width="120">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock x:Name="SaleText"
-                                           Text="{Binding SalePrice, StringFormat={}{0:N0}}"
-                                           HorizontalAlignment="Right"
-                                           FontWeight="Bold"
-                                           Foreground="{StaticResource Success}"
-                                           Visibility="Collapsed"/>
-                                <DataTemplate.Triggers>
-                                    <DataTrigger Binding="{Binding SalePrice}" Value="{x:Null}">
-                                        <Setter TargetName="SaleText" Property="Visibility" Value="Collapsed"/>
-                                    </DataTrigger>
-                                    <Trigger SourceName="SaleText" Property="Text" Value="">
-                                        <Setter TargetName="SaleText" Property="Visibility" Value="Collapsed"/>
-                                    </Trigger>
-                                    <Trigger SourceName="SaleText" Property="Text" Value="{x:Null}">
-                                        <Setter TargetName="SaleText" Property="Visibility" Value="Collapsed"/>
-                                    </Trigger>
-                                    <Trigger SourceName="SaleText" Property="Text" Value="{x:Null}">
-                                        <Setter TargetName="SaleText" Property="Visibility" Value="Collapsed"/>
-                                    </Trigger>
-                                </DataTemplate.Triggers>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                                <!-- Giá sale -->
+                                <TextBlock Text="{Binding SalePrice, StringFormat={}{0:N0}}"
+                                   FontWeight="Bold"
+                                   Foreground="{StaticResource Success}"
+                                   Visibility="Collapsed">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding SalePrice}" Value="{x:Null}">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding SalePrice}">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
-                    <!-- Stock -->
-                    <DataGridTemplateColumn Header="Stock" Width="110">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,2,0">
-                                    <TextBlock Text="{Binding StockQty}" FontWeight="SemiBold"/>
-                                    <TextBlock Text="/" Margin="6,0,6,0" Foreground="{StaticResource FgMuted}"/>
-                                    <TextBlock Text="{Binding ReorderLevel}" Foreground="{StaticResource FgMuted}"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                <!-- 9) Stock (gọn) -->
+                <DataGridTemplateColumn Header="Stock" Width="96" MinWidth="90" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <TextBlock Text="{Binding StockQty}" FontWeight="SemiBold"/>
+                                <TextBlock Text="/" Margin="4,0" Foreground="{StaticResource FgMuted}"/>
+                                <TextBlock Text="{Binding ReorderLevel}" Foreground="{StaticResource FgMuted}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
-                    <DataGridTextColumn Header="Updated"
-                                        Binding="{Binding UpdatedAt, StringFormat={}{0:yyyy-MM-dd HH:mm}}"
-                                        Width="160"/>
+                <!-- 10) Updated -->
+                <DataGridTextColumn Header="Updated" Width="140" MinWidth="120" IsReadOnly="True"
+                            Binding="{Binding UpdatedAt, StringFormat={}{0:yyyy-MM-dd HH:mm}}"
+                            SortMemberPath="UpdatedAt">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right"/>
+                            <Setter Property="Foreground" Value="{StaticResource FgMuted}"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
 
-                    <!-- Actions -->
-                    <DataGridTemplateColumn Header="Actions" Width="200">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                    <Button Content="Edit"
-                                            Style="{StaticResource ButtonGhost}" Margin="0,0,8,0"
-                                            Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                            CommandParameter="{Binding}"/>
-                                    <Button Content="Delete"
-                                            Style="{StaticResource ButtonGhost}"
-                                            Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                            CommandParameter="{Binding}"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                <!-- 11) Actions (icon buttons) -->
+                <DataGridTemplateColumn Header="" Width="88" MinWidth="80" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <!-- Update = U (xanh) -->
+                                <Button Style="{StaticResource ButtonGhost}"
+                                    Width="32" Height="28" Margin="0,0,4,0"
+                                    ToolTip="Update"
+                                    Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                    CommandParameter="{Binding}">
+                                    <TextBlock Text="U"
+                                       FontSize="14"
+                                       FontWeight="Bold"
+                                       Foreground="#2563EB"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
 
-                </DataGrid.Columns>
+                                <!-- Delete = X (đỏ) -->
+                                <Button Style="{StaticResource ButtonGhost}"
+                                    Width="32" Height="28"
+                                    ToolTip="Delete"
+                                    Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                    CommandParameter="{Binding}">
+                                    <TextBlock Text="X"
+                                       FontSize="14"
+                                       FontWeight="Bold"
+                                       Foreground="#DC2626"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>        
+                                </Button>
+                            </StackPanel>
 
-                <!-- Context menu nhanh -->
-                <DataGrid.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Edit"
-                                  Command="{Binding PlacementTarget.DataContext.EditCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                  CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
-                        <MenuItem Header="Delete"
-                                  Command="{Binding PlacementTarget.DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                  CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
-                    </ContextMenu>
-                </DataGrid.ContextMenu>
-            </DataGrid>
-        </Border>
+
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+            </DataGrid.Columns>
+
+            <!-- Context menu -->
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Edit"
+                      Command="{Binding PlacementTarget.DataContext.EditCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                      CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                    <MenuItem Header="Delete"
+                      Command="{Binding PlacementTarget.DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                      CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
 
     </DockPanel>
 </Window>

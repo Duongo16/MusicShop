@@ -896,7 +896,7 @@
               "RelativeDocumentMoniker": "MusicShop.Common\\Transport\\TCP.cs",
               "ToolTip": "F:\\1. LEARNING\\@FPTU\\S7\\PRN222\\MusicShop\\MusicShop.Common\\MusicShop.Common\\MusicShop.Common\\Transport\\TCP.cs",
               "RelativeToolTip": "MusicShop.Common\\Transport\\TCP.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAAwA4AAAAEAAAAAAAAAA==",
+              "ViewState": "AgIAAAQAAAAAAAAAAAA8wA4AAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-10T15:17:15.739Z",
               "EditorCaption": ""
@@ -959,8 +959,7 @@
               "RelativeToolTip": "MusicShop.Common\\DTOs\\ItemDetailOutDto.cs",
               "ViewState": "AgIAAAgAAAAAAAAAAAAYwBwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-10T15:04:22.94Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-10T15:04:22.94Z"
             },
             {
               "$type": "Document",
