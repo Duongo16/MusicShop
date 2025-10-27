@@ -15,7 +15,7 @@ public static class TcpFraming
     {
         var json = JsonSerializer.Serialize(obj, Json);
         var bytes = Encoding.UTF8.GetBytes(json);
-        var len = BitConverter.GetBytes(bytes.Length); // little-endian
+        var len = BitConverter.GetBytes(bytes.Length); 
         await s.WriteAsync(len.AsMemory(0, 4), ct);
         await s.WriteAsync(bytes.AsMemory(0, bytes.Length), ct);
         await s.FlushAsync(ct);
@@ -37,7 +37,7 @@ public static class TcpFraming
         while (read < len)
         {
             var n = await s.ReadAsync(buf.AsMemory(read, len - read), ct);
-            if (n == 0) return false; // remote closed
+            if (n == 0) return false;
             read += n;
         }
         return true;

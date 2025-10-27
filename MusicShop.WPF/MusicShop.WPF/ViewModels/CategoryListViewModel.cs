@@ -158,12 +158,3 @@ public class CategoryListViewModel : INotifyPropertyChanged
     }
 }
 
-public class RelayCommand : ICommand
-{
-    private readonly Func<object?, Task> _exec; 
-    private readonly Predicate<object?>? _can;
-    public RelayCommand(Func<object?, Task> exec, Predicate<object?>? can = null) { _exec = exec; _can = can; }
-    public bool CanExecute(object? p) => _can?.Invoke(p) ?? true;
-    public event EventHandler? CanExecuteChanged { add { } remove { } }
-    public async void Execute(object? p) => await _exec(p);
-}

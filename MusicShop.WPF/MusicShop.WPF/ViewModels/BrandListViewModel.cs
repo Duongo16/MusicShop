@@ -1,6 +1,7 @@
 ﻿using MusicShop.Common.DTOs;
 using MusicShop.Common.Models;
 using MusicShop.Common.Transport;
+using MusicShop.WPF.ViewModels;
 using MusicShop.WPF.Views.Brand;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -130,15 +131,5 @@ namespace MusicShop.WPF.Views.Brands
             }
             catch (Exception ex) { StatusText = ex.Message; }
         }
-    }
-
-    // RelayCommand
-    public class RelayCommand : ICommand
-    {
-        private readonly Func<object?, Task> _exec; private readonly Predicate<object?>? _can;
-        public RelayCommand(Func<object?, Task> exec, Predicate<object?>? can = null) { _exec = exec; _can = can; }
-        public bool CanExecute(object? p) => _can?.Invoke(p) ?? true;
-        public event EventHandler? CanExecuteChanged { add { } remove { } }
-        public async void Execute(object? p) => await _exec(p);
     }
 }

@@ -1,0 +1,50 @@
+﻿@model MusicShop.Common.Models.PagedResult<MusicShop.Common.DTOs.ItemDetailOutDto>
+@{
+    var q = (string?)ViewData["q"] ?? "";
+}
+
+<h2>Danh sách sản phẩm</h2>
+
+<form method="get" class="mb-3">
+    <div class="input-group">
+        <input type="text" name="q" value="@q" class="form-control" placeholder="Tìm kiếm SKU hoặc tên..." />
+        <button class="btn btn-primary" type="submit">Tìm</button>
+    </div>
+</form>
+
+@if (!Model.Items.Any())
+{
+    <p>Không có sản phẩm</p>
+}
+else
+{
+    <div class="row">
+        @foreach (var item in Model.Items)
+        {
+            <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Name</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">@item.Sku</h6>
+                        <p class="card-text">Giá: @item.Price.ToString("N0")</p>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">Xem</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            @{
+                var totalPages = (int)Math.Ceiling((double)Model.TotalCount / Model.PageSize);
+                for (int i = 1; i <= Math.Max(1, totalPages); i++)
+                {
+                    <li class="page-item @(i == Model.Page ? "active" : "")">
+                        <a class="page-link" href="@Url.Action("Index", new { q = q, page = i })">@i</a>
+                    </li>
+                }
+            }
+        </ul>
+    </nav>
+}

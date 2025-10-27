@@ -60,7 +60,7 @@
                     <TextBlock Text="Brand" Foreground="{StaticResource FgMuted}" FontSize="12" Margin="2,0,0,4"/>
                     <ComboBox Style="{StaticResource ComboBoxBase}"
                         ItemsSource="{Binding Brands}"
-                        SelectedValuePath="Name"
+                        SelectedValuePath="Name"    
                         SelectedValue="{Binding SelectedBrandName, Mode=TwoWay}"
                         DisplayMemberPath="Name"
                         ToolTip="Filter by brand"

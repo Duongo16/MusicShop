@@ -1,0 +1,12 @@
+﻿@model MusicShop.Common.DTOs.ItemDetailOutDto
+
+<h2>@Model.Name</h2>
+<p><strong>SKU:</strong> @Model.Sku</p>
+<p><strong>Giá:</strong> @Model.Price.ToString("N0")</p>
+@if (Model.SalePrice.HasValue)
+{
+    <p><strong>Giá giảm:</strong> @Model.SalePrice.Value.ToString("N0")</p>
+}
+<p><strong>Trạng thái:</strong> @(Model.Status.Equals("Active") ? "Hoạt động" : "Không hoạt động")</p>
+
+<a asp-action="Index" class="btn btn-secondary">Quay lại</a>

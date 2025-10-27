@@ -83,7 +83,6 @@ namespace MusicShop.Server.Host.Infrastructure
                                 {
                                     var p = JsonSerializer.Deserialize<ItemUpsertPayload>(req.Payload?.ToString() ?? "{}", TcpFraming.Json)!;
 
-                                    // map payload -> DTO
                                     var dto = new ItemDetailOutDto
                                     {
                                         Id = p.Id ?? Guid.Empty,
@@ -156,7 +155,6 @@ namespace MusicShop.Server.Host.Infrastructure
                                     resp = new(req.RequestId, true, data, null);
                                     break;
                                 }
-
                             case "Category.Create":
                                 {
                                     var p = JsonSerializer.Deserialize<CategoryUpsertPayload>(req.Payload?.ToString() ?? "{}", TcpFraming.Json)!;
@@ -220,7 +218,6 @@ namespace MusicShop.Server.Host.Infrastructure
                                     break;
                                 }
 
-
                             default:
                                 resp = new(req.RequestId, false, null, $"Unknown Op: {req.Op}");
                                 break;
@@ -236,7 +233,6 @@ namespace MusicShop.Server.Host.Infrastructure
             }
             catch (Exception)
             {
-                // log nếu cần: _log.LogError(ex, "TCP client error");
             }
             finally { client.Close(); }
         }

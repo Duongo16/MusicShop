@@ -1,6 +1,7 @@
 ﻿using MusicShop.Common.DTOs;
 using MusicShop.Common.Models;
 using MusicShop.Common.Transport;
+using MusicShop.WPF.ViewModels;
 using MusicShop.WPF.Views.Item;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -291,14 +292,4 @@ public class ItemListViewModel : INotifyPropertyChanged
     }
 }
 
-public class RelayCommand : ICommand
-{
-    private readonly Func<object?, Task>? _execAsync;
-    private readonly Predicate<object?>? _can;
-    public RelayCommand(Func<object?, Task> execAsync, Predicate<object?>? can = null)
-    { _execAsync = execAsync; _can = can; }
 
-    public bool CanExecute(object? parameter) => _can?.Invoke(parameter) ?? true;
-    public event EventHandler? CanExecuteChanged { add { } remove { } }
-    public async void Execute(object? parameter) => await (_execAsync?.Invoke(parameter) ?? Task.CompletedTask);
-}
