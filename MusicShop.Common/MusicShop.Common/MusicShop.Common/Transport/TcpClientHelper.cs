@@ -33,7 +33,7 @@ namespace MusicShop.Common.Transport
             }
         }
 
-        public async Task<T?> SendAsync<T>(string op, object? payload, CancellationToken ct)
+        public async Task<T?> SendAsync<T>(string op, object? payload)
         {
             if (_stream == null || _client == null || !_client.Connected)
             {
@@ -43,8 +43,8 @@ namespace MusicShop.Common.Transport
 
             var req = new TcpRequest(Guid.NewGuid().ToString("N"), op, payload);
 
-            await TcpFraming.WriteJsonAsync(_stream!, req, ct);
-            var json = await TcpFraming.ReadJsonAsync(_stream!, ct) ?? throw new Exception("Mất kết nối đến server.");
+            await TcpFraming.WriteJsonAsync(_stream!, req);
+            var json = await TcpFraming.ReadJsonAsync(_stream!) ?? throw new Exception("Mất kết nối đến server.");
 
             var resp = JsonSerializer.Deserialize<TcpResponse>(json, TcpFraming.Json)!;
             if (!resp.Ok) throw new Exception(resp.Error ?? "Lỗi không xác định.");

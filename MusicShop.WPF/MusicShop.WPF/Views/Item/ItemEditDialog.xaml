@@ -1,7 +1,7 @@
 ﻿<Window x:Class="MusicShop.WPF.Views.Item.ItemEditDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Item"
+        Title="Update Item"
         Height="560" Width="760"
         WindowStartupLocation="CenterOwner"
         Background="{StaticResource BgWindow}"

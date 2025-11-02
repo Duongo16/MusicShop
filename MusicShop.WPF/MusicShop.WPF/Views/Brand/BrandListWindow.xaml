@@ -2,7 +2,7 @@
 <Window x:Class="MusicShop.WPF.Views.Brand.BrandListWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Inventory — Brands"
+        Title="Brand Management"
         WindowStartupLocation="CenterScreen"
         Background="{StaticResource BgWindow}"
         WindowState="Maximized"

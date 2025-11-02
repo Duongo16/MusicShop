@@ -52,7 +52,7 @@ namespace MusicShop.Server.Host.Infrastructure
             {
                 while (!ct.IsCancellationRequested && client.Connected)
                 {
-                    var json = await TcpFraming.ReadJsonAsync(stream, ct);
+                    var json = await TcpFraming.ReadJsonAsync(stream);
                     if (json is null) break;
 
                     TcpResponse resp;
@@ -228,7 +228,7 @@ namespace MusicShop.Server.Host.Infrastructure
                         resp = new("?", false, null, ex.Message);
                     }
 
-                    await TcpFraming.WriteJsonAsync(stream, resp, ct);
+                    await TcpFraming.WriteJsonAsync(stream, resp);
                 }
             }
             catch (Exception)

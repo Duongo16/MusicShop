@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
-using MusicShop.Common.DTOs;
+﻿using MusicShop.Common.DTOs;
 using MusicShop.Common.Models;
 using MusicShop.Common.Transport;
 using System.Text.Json;
@@ -12,10 +11,10 @@ namespace MusicShop.Web.Services.Impl
 
         public ItemClientService(TcpClientHelper tcp) => _tcp = tcp;
 
-        public async Task<PagedResult<ItemDetailOutDto>> GetListAsync(string? q, int page = 1, int pageSize = 12, CancellationToken ct = default)
+        public async Task<PagedResult<ItemDetailOutDto>> GetListAsync(string? q, int page = 1, int pageSize = 12)
         {
             var resp = await _tcp.SendAsync<PagedResult<ItemDetailOutDto>>(
-                "Item.GetList", new GetListPayload(q, page, pageSize),ct);
+                "Item.GetList", new GetListPayload(q, page, pageSize));
 
             var data = resp?.Items;
             var items = new List<ItemDetailOutDto>();
@@ -31,40 +30,24 @@ namespace MusicShop.Web.Services.Impl
                 items = items.Where(x => x.Name.ToLowerInvariant().Contains(qLower) || x.Sku.ToLowerInvariant().Contains(qLower)).ToList();
             }
 
-            var total = items.Count;
-            var pageItems = items.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            var total = resp.TotalCount;
 
             return new PagedResult<ItemDetailOutDto>
             {
                 Page = page,
                 PageSize = pageSize,
                 TotalCount = total,
-                Items = pageItems
+                Items = items
             };
         }
 
-        public async Task<ItemDetailOutDto?> GetByIdAsync(Guid id, CancellationToken ct = default)
+        public async Task<ItemDetailOutDto?> GetByIdAsync(Guid id)
         {
-            //var resp = await _tcp.SendRequestAsync("Item.Get", new { id }, ct);
-            //var status = resp.GetProperty("status").GetString();
-            //if (status != "OK") return null;
-
-            //var data = resp.GetProperty("data");
-            //return DeserializeItem(data);
-            return null;
+            var resp = await _tcp.SendAsync<ItemDetailOutDto>("Item.GetById", new GetByIdPayload(id));
+            return resp;
         }
 
-        private static ItemDetailOutDto DeserializeItem(JsonElement el)
-        {
-            return new ItemDetailOutDto
-            {
-                Id = el.TryGetProperty("id", out var pid) && pid.ValueKind == JsonValueKind.String ? pid.GetGuid() : Guid.Empty,
-                Sku = el.TryGetProperty("sku", out var psku) ? psku.GetString() ?? "" : "",
-                Name = el.TryGetProperty("name", out var pname) ? pname.GetString() ?? "" : "",
-                Price = el.TryGetProperty("price", out var pprice) && pprice.ValueKind == JsonValueKind.Number ? pprice.GetDecimal() : 0,
-                SalePrice = el.TryGetProperty("salePrice", out var psale) && psale.ValueKind == JsonValueKind.Number ? psale.GetDecimal() : null,
-                Status = el.TryGetProperty("status", out var pstat) ? (ItemStatus)pstat.GetByte() : ItemStatus.Draft,
-            };
-        }
+
+
     }
 }

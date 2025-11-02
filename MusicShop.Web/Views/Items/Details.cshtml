@@ -1,12 +1,131 @@
 ﻿@model MusicShop.Common.DTOs.ItemDetailOutDto
-
-<h2>@Model.Name</h2>
-<p><strong>SKU:</strong> @Model.Sku</p>
-<p><strong>Giá:</strong> @Model.Price.ToString("N0")</p>
-@if (Model.SalePrice.HasValue)
-{
-    <p><strong>Giá giảm:</strong> @Model.SalePrice.Value.ToString("N0")</p>
+@{
+    ViewData["Title"] = Model.Name;
+    var product = Model; 
+    int quantity = 1; 
 }
-<p><strong>Trạng thái:</strong> @(Model.Status.Equals("Active") ? "Hoạt động" : "Không hoạt động")</p>
 
-<a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-6 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-2">
+                    <img src="@(string.IsNullOrEmpty(product.ImageUrl) ? "/images/placeholder-product.png" : product.ImageUrl)"
+                         class="img-fluid rounded w-100"
+                         style="aspect-ratio: 1/1; object-fit: cover;"
+                         alt="@product.Name">
+                </div>
+            </div>
+
+            <div class="mt-3">
+                <a asp-action="Index" class="btn btn-link text-decoration-none">
+                    <i class="bi bi-arrow-left"></i> Quay lại danh sách
+                </a>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+
+            @if (product.Brand != null)
+            {
+                <h6 class="text-muted text-uppercase">@product.Brand.Name</h6>
+            }
+
+            <h1 class="display-5 fw-bold">@product.Name</h1>
+
+            <p class="text-muted">SKU: @product.Sku</p>
+
+            <div class="mb-3">
+                @if (product.SalePrice.HasValue && product.SalePrice < product.Price)
+                {
+                    <span class="fw-bold text-danger display-6 me-2">@product.SalePrice.Value.ToString("N0")đ</span>
+                    <span class="text-muted text-decoration-line-through fs-4">@product.Price.ToString("N0")đ</span>
+                }
+                else
+                {
+                    <span class="fw-bold text-dark display-6">@product.Price.ToString("N0")đ</span>
+                }
+            </div>
+
+            <div class="mb-3">
+                @if (product.StockQty > 0)
+                {
+                    <span class="badge bg-success fs-6">
+                        <i class="bi bi-check-circle-fill"></i> Còn hàng (còn @product.StockQty sản phẩm)
+                    </span>
+                }
+                else
+                {
+                    <span class="badge bg-danger fs-6">
+                        <i class="bi bi-x-circle-fill"></i> Hết hàng
+                    </span>
+                }
+            </div>
+
+            <form asp-controller="Cart" asp-action="Add" method="post" class="mt-4">
+
+                <input type="hidden" name="productId" value="@product.Id" />
+
+                @if (product.StockQty > 0)
+                {
+                    <div class="row">
+                        <div class="col-md-5 col-lg-4">
+                            <label for="quantityInput" class="form-label fw-bold">Số lượng:</label>
+                            <div class="input-group">
+                                <button class="btn btn-outline-secondary" type="button" onclick="changeQuantity(-1)">-</button>
+                                <input name="Quantity" type="number" class="form-control text-center" value="@quantity" min="1" max="@product.StockQty" id="quantityInput" />
+                                <button class="btn btn-outline-secondary" type="button" onclick="changeQuantity(1)">+</button>
+                            </div>
+                            <!-- Remove asp-validation-for since Quantity is not part of the model -->
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2 mt-3">
+                        <button type="submit" class="btn btn-primary btn-lg shadow">
+                            <i class="bi bi-cart-plus-fill"></i> Thêm vào giỏ
+                        </button>
+                    </div>
+                }
+                else
+                {
+                    <div class="d-grid gap-2 mt-3">
+                        <button type="button" class="btn btn-secondary btn-lg" disabled>
+                            Sản phẩm đã hết hàng
+                        </button>
+                    </div>
+                }
+            </form>
+
+            @if (!string.IsNullOrEmpty(product.Description))
+            {
+                <div class="mt-5">
+                    <h5 class="border-bottom pb-2">Mô tả sản phẩm</h5>
+                    <p class="text-body" style="white-space: pre-wrap;">@product.Description</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function changeQuantity(amount) {
+            var input = document.getElementById('quantityInput');
+            var currentValue = parseInt(input.value) || 1;
+            var maxValue = parseInt(input.max) || 100;
+            var minValue = parseInt(input.min) || 1;
+
+            var newValue = currentValue + amount;
+
+            if (newValue < minValue) {
+                newValue = minValue;
+            }
+            if (newValue > maxValue) {
+                newValue = maxValue;
+            }
+
+            input.value = newValue;
+        }
+    </script>
+}

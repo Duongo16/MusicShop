@@ -201,10 +201,19 @@
 
                                 <!-- Nội dung đang chọn -->
                                 <ContentPresenter Grid.Column="0"
-                                          Margin="10,4"
-                                          VerticalAlignment="Center"
-                                          Content="{TemplateBinding SelectionBoxItem}"
-                                          RecognizesAccessKey="True"/>
+                                    x:Name="ContentSite"
+                                    Margin="{TemplateBinding Padding}"
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                    IsHitTestVisible="False"
+
+                                    Content="{TemplateBinding SelectionBoxItem}"
+                                    ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                    ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"                                   
+                                    ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}"
+    
+                                    RecognizesAccessKey="True"/>
 
                                 <!-- ToggleButton điều khiển IsDropDownOpen -->
                                 <ToggleButton x:Name="DropDownToggle"
@@ -239,7 +248,7 @@
                                         CornerRadius="8">
                                         <ScrollViewer x:Name="DropDownScrollViewer"
                                                   CanContentScroll="True"
-                                                  Padding="0">      
+                                                  Padding="0">
                                             <ItemsPresenter/>
                                         </ScrollViewer>
                                     </Border>
@@ -294,14 +303,23 @@
         </Style>
 
         <!-- Tag / Badge khung sẵn -->
-        <Style x:Key="Tag" TargetType="Border">
-            <Setter Property="CornerRadius" Value="10"/>
-            <Setter Property="Padding" Value="8,2"/>
-            <Setter Property="Background" Value="#263244"/>
-            <Setter Property="BorderBrush" Value="#00000000"/>
-            <Setter Property="Child">
+        <Style x:Key="Tag" TargetType="ContentControl">
+            <Setter Property="Foreground" Value="{StaticResource FgPrimary}" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+
+            <Setter Property="Template">
                 <Setter.Value>
-                    <TextBlock Foreground="{StaticResource FgPrimary}" FontSize="12" />
+                    <ControlTemplate TargetType="ContentControl">
+                        <Border CornerRadius="10"
+                        Padding="8,2"
+                        Background="#263244"
+                        BorderBrush="#00000000">
+
+                            <ContentPresenter VerticalAlignment="Center" 
+                                      HorizontalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
