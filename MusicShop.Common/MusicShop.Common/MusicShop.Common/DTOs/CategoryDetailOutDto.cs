@@ -1,5 +1,4 @@
 ﻿using MusicShop.Common.Models;
-using System.ComponentModel.DataAnnotations;
 
 namespace MusicShop.Common.DTOs
 {

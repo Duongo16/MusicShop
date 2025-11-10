@@ -8,6 +8,7 @@ using MusicShop.Server.Core.Services;
 using System.Net;
 using System.Net.Sockets;
 using System.Text.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MusicShop.Server.Host.Infrastructure
 {
@@ -46,6 +47,7 @@ namespace MusicShop.Server.Host.Infrastructure
             var itemService = scope.ServiceProvider.GetRequiredService<IItemService>();
             var categoryService = scope.ServiceProvider.GetRequiredService<ICategoryService>();
             var brandService = scope.ServiceProvider.GetRequiredService<IBrandService>();
+            var authService = scope.ServiceProvider.GetRequiredService<IAuthService>();
             using var stream = client.GetStream();
 
             try
@@ -69,14 +71,16 @@ namespace MusicShop.Server.Host.Infrastructure
                                     var p = JsonSerializer.Deserialize<GetListPayload>(req.Payload?.ToString() ?? "{}", TcpFraming.Json)
                                             ?? new(null, 1, 12);
                                     var data = await itemService.GetListAsync(p.Q, p.Page, p.PageSize, ct);
-                                    resp = new(req.RequestId, true, data, null);
+                                    var dataElement = JsonSerializer.SerializeToElement(data, TcpFraming.Json);
+                                    resp = new(req.RequestId, true, dataElement, null);
                                     break;
                                 }
                             case "Item.GetById":
                                 {
                                     var p = JsonSerializer.Deserialize<GetByIdPayload>(req.Payload?.ToString() ?? "{}", TcpFraming.Json)!;
                                     var data = await itemService.GetByIdAsync(p.Id, ct);
-                                    resp = new(req.RequestId, true, data, null);
+                                    var dataElement = JsonSerializer.SerializeToElement(data, TcpFraming.Json);
+                                    resp = new(req.RequestId, true, dataElement, null);
                                     break;
                                 }
                             case "Item.Create":
@@ -100,8 +104,9 @@ namespace MusicShop.Server.Host.Infrastructure
                                         CategoryId = p.CategoryId
                                     };
 
-                                    var newId = await itemService.CreateAsync(dto, ct);
-                                    resp = new(req.RequestId, true, newId, null);
+                                    var data = await itemService.CreateAsync(dto, ct);
+                                    var dataElement = JsonSerializer.SerializeToElement(data, TcpFraming.Json);
+                                    resp = new(req.RequestId, true, dataElement, null);
                                     break;
                                 }
                             case "Item.Update":
@@ -127,15 +132,17 @@ namespace MusicShop.Server.Host.Infrastructure
                                         CategoryId = p.CategoryId
                                     };
 
-                                    var ok = await itemService.UpdateAsync(dto, ct);
-                                    resp = new(req.RequestId, true, ok, null);
+                                    var data = await itemService.UpdateAsync(dto, ct);
+                                    var dataElement = JsonSerializer.SerializeToElement(data, TcpFraming.Json);
+                                    resp = new(req.RequestId, true, dataElement, null);
                                     break;
                                 }
                             case "Item.Delete":
                                 {
                                     var p = JsonSerializer.Deserialize<DeleteGuidPayload>(req.Payload?.ToString() ?? "{}", TcpFraming.Json)!;
-                                    var ok = await itemService.DeleteAsync(p.Id, ct);
-                                    resp = new(req.RequestId, true, ok, null);
+                                    var data = await itemService.DeleteAsync(p.Id, ct);
+                                    var dataElement = JsonSerializer.SerializeToElement(data, TcpFraming.Json);
+                                    resp = new(req.RequestId, true, dataElement, null);
                                     break;
                                 }
 
@@ -145,36 +152,41 @@ namespace MusicShop.Server.Host.Infrastructure
                                     var p = JsonSerializer.Deserialize<GetListPayload>(req.Payload?.ToString() ?? "{}", TcpFraming.Json)
                                             ?? new(null, 1, 12);
                                     var data = await categoryService.GetListAsync(p.Q, p.Page, p.PageSize, ct);
-                                    resp = new(req.RequestId, true, data, null);
+                                    var dataElement = JsonSerializer.SerializeToElement(data, TcpFraming.Json);
+                                    resp = new(req.RequestId, true, dataElement, null);
                                     break;
                                 }
                             case "Category.GetById":
                                 {
                                     var p = JsonSerializer.Deserialize<GetByIdIntPayload>(req.Payload?.ToString() ?? "{}", TcpFraming.Json)!;
                                     var data = await categoryService.GetByIdAsync(p.Id, ct);
-                                    resp = new(req.RequestId, true, data, null);
+                                    var dataElement = JsonSerializer.SerializeToElement(data, TcpFraming.Json);
+                                    resp = new(req.RequestId, true, dataElement, null);
                                     break;
                                 }
                             case "Category.Create":
                                 {
                                     var p = JsonSerializer.Deserialize<CategoryUpsertPayload>(req.Payload?.ToString() ?? "{}", TcpFraming.Json)!;
-                                    var ok = await categoryService.CreateAsync(p.Name, ct);
-                                    resp = new(req.RequestId, true, ok, null);
+                                    var data = await categoryService.CreateAsync(p.Name, ct);
+                                    var dataElement = JsonSerializer.SerializeToElement(data, TcpFraming.Json);
+                                    resp = new(req.RequestId, true, dataElement, null);
                                     break;
                                 }
                             case "Category.Update":
                                 {
                                     var p = JsonSerializer.Deserialize<CategoryUpsertPayload>(req.Payload?.ToString() ?? "{}", TcpFraming.Json)!;
                                     if (p.Id is null || p.Id <= 0) throw new Exception("Invalid Id");
-                                    var ok = await categoryService.UpdateAsync(p.Id.Value, p.Name, ct);
-                                    resp = new(req.RequestId, true, ok, null);
+                                    var data = await categoryService.UpdateAsync(p.Id.Value, p.Name, ct);
+                                    var dataElement = JsonSerializer.SerializeToElement(data, TcpFraming.Json);
+                                    resp = new(req.RequestId, true, dataElement, null);
                                     break;
                                 }
                             case "Category.Delete":
                                 {
                                     var p = JsonSerializer.Deserialize<DeletePayload>(req.Payload?.ToString() ?? "{}", TcpFraming.Json)!;
-                                    var ok = await categoryService.DeleteAsync(p.Id, ct);
-                                    resp = new(req.RequestId, true, ok, null);
+                                    var data = await categoryService.DeleteAsync(p.Id, ct);
+                                    var dataElement = JsonSerializer.SerializeToElement(data, TcpFraming.Json);
+                                    resp = new(req.RequestId, true, dataElement, null);
                                     break;
                                 }
 
@@ -185,36 +197,59 @@ namespace MusicShop.Server.Host.Infrastructure
                                     var p = JsonSerializer.Deserialize<GetListPayload>(req.Payload?.ToString() ?? "{}", TcpFraming.Json)
                                             ?? new(null, 1, 12);
                                     var data = await brandService.GetListAsync(p.Q, p.Page, p.PageSize, ct);
-                                    resp = new(req.RequestId, true, data, null);
+                                    var dataElement = JsonSerializer.SerializeToElement(data, TcpFraming.Json);
+                                    resp = new(req.RequestId, true, dataElement, null);
                                     break;
                                 }
                             case "Brand.GetById":
                                 {
                                     var p = JsonSerializer.Deserialize<GetByIdIntPayload>(req.Payload?.ToString() ?? "{}", TcpFraming.Json)!;
                                     var data = await brandService.GetByIdAsync(p.Id, ct);
-                                    resp = new(req.RequestId, true, data, null);
+                                    var dataElement = JsonSerializer.SerializeToElement(data, TcpFraming.Json);
+                                    resp = new(req.RequestId, true, dataElement, null);
                                     break;
                                 }
                             case "Brand.Create":
                                 {
                                     var p = JsonSerializer.Deserialize<BrandUpsertPayload>(req.Payload?.ToString() ?? "{}", TcpFraming.Json)!;
-                                    var newId = await brandService.CreateAsync(p.Name, ct);
-                                    resp = new(req.RequestId, true, newId, null);
+                                    var data = await brandService.CreateAsync(p.Name, ct);
+                                    var dataElement = JsonSerializer.SerializeToElement(data, TcpFraming.Json);
+                                    resp = new(req.RequestId, true, dataElement, null);
                                     break;
                                 }
                             case "Brand.Update":
                                 {
                                     var p = JsonSerializer.Deserialize<BrandUpsertPayload>(req.Payload?.ToString() ?? "{}", TcpFraming.Json)!;
                                     if (p.Id is null || p.Id <= 0) throw new Exception("Invalid Id");
-                                    var ok = await brandService.UpdateAsync(p.Id.Value, p.Name, ct);
-                                    resp = new(req.RequestId, true, ok, null);
+                                    var data = await brandService.UpdateAsync(p.Id.Value, p.Name, ct);
+                                    var dataElement = JsonSerializer.SerializeToElement(data, TcpFraming.Json);
+                                    resp = new(req.RequestId, true, dataElement, null);
                                     break;
                                 }
                             case "Brand.Delete":
                                 {
                                     var p = JsonSerializer.Deserialize<DeletePayload>(req.Payload?.ToString() ?? "{}", TcpFraming.Json)!;
-                                    var ok = await brandService.DeleteAsync(p.Id, ct);
-                                    resp = new(req.RequestId, true, ok, null);
+                                    var data = await brandService.DeleteAsync(p.Id, ct);
+                                    var dataElement = JsonSerializer.SerializeToElement(data, TcpFraming.Json);
+                                    resp = new(req.RequestId, true, dataElement, null);
+                                    break;
+                                }
+
+                            // =================== AUTH ===================
+                            case "Auth.Register":
+                                {
+                                    var p = JsonSerializer.Deserialize<RegisterInDTO>(req.Payload?.ToString() ?? "{}", TcpFraming.Json)!;
+                                    var data = await authService.RegisterAsync(p, ct);
+                                    var dataElement = JsonSerializer.SerializeToElement(data, TcpFraming.Json);
+                                    resp = new(req.RequestId, true, dataElement, null);
+                                    break;
+                                }
+                            case "Auth.Login":
+                                {
+                                    var p = JsonSerializer.Deserialize<LoginInDTO>(req.Payload?.ToString() ?? "{}", TcpFraming.Json)!;
+                                    var data = await authService.LoginAsync(p, ct);
+                                    var dataElement = JsonSerializer.SerializeToElement(data, TcpFraming.Json);
+                                    resp = new(req.RequestId, true, dataElement, null);
                                     break;
                                 }
 
