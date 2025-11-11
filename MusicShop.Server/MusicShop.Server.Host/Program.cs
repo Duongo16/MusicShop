@@ -29,6 +29,7 @@ builder.Services.AddScoped<IBrandRepository, BrandRepository>();
 builder.Services.AddScoped<IItemRepository, ItemRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
 {
@@ -44,6 +45,8 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IBrandService, BrandService>();
 builder.Services.AddScoped<IItemService, ItemService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 
 builder.Services.AddHostedService<TcpServerHostedService>();
 

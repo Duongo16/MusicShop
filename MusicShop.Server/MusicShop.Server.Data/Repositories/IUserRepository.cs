@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using MusicShop.Common.DTOs;
 using MusicShop.Common.Models;
 
 namespace MusicShop.Server.Data.Repositories
@@ -14,5 +15,6 @@ namespace MusicShop.Server.Data.Repositories
         Task<IList<string>> GetRolesAsync(ApplicationUser user, CancellationToken ct = default);
         Task<IdentityResult> AddToRoleAsync(ApplicationUser user, string role, CancellationToken ct = default);
         Task<IdentityResult> RemoveFromRoleAsync(ApplicationUser user, string role, CancellationToken ct = default);
+        Task<UserProfileOutDto?> GetUserProfileAsync(Guid userId, CancellationToken ct);
     }
 }

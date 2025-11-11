@@ -48,6 +48,7 @@ namespace MusicShop.Server.Host.Infrastructure
             var categoryService = scope.ServiceProvider.GetRequiredService<ICategoryService>();
             var brandService = scope.ServiceProvider.GetRequiredService<IBrandService>();
             var authService = scope.ServiceProvider.GetRequiredService<IAuthService>();
+            var accountService = scope.ServiceProvider.GetRequiredService<IUserService>();
             using var stream = client.GetStream();
 
             try
@@ -248,6 +249,24 @@ namespace MusicShop.Server.Host.Infrastructure
                                 {
                                     var p = JsonSerializer.Deserialize<LoginInDTO>(req.Payload?.ToString() ?? "{}", TcpFraming.Json)!;
                                     var data = await authService.LoginAsync(p, ct);
+                                    var dataElement = JsonSerializer.SerializeToElement(data, TcpFraming.Json);
+                                    resp = new(req.RequestId, true, dataElement, null);
+                                    break;
+                                }
+
+                            // =================== ACCOUNT ===================
+                            case "Account.UpdateProfile":
+                                {
+                                    var p = JsonSerializer.Deserialize<UpdateProfileInDto>(req.Payload?.ToString() ?? "{}", TcpFraming.Json)!;
+                                    var data = await accountService.UpdateProfileAsync(p, ct);
+                                    var dataElement = JsonSerializer.SerializeToElement(data, TcpFraming.Json);
+                                    resp = new(req.RequestId, true, dataElement, null);
+                                    break;
+                                }
+                            case "Account.GetProfile":
+                                {
+                                    var p = JsonSerializer.Deserialize<GetByIdPayload>(req.Payload?.ToString() ?? "{}", TcpFraming.Json)!;
+                                    var data = await accountService.GetUserProfileAsync(p.Id, ct);
                                     var dataElement = JsonSerializer.SerializeToElement(data, TcpFraming.Json);
                                     resp = new(req.RequestId, true, dataElement, null);
                                     break;

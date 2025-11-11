@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace MusicShop.Common.Models
 {
 
     public class ApplicationUser : IdentityUser<Guid>
     {
+        [JsonIgnore]
         public Profile? Profile { get; set; }
     }
 

@@ -5,8 +5,8 @@ namespace MusicShop.Web.Controllers
 {
     public class ItemsController : Controller
     {
-        private readonly IItemClientService _items;
-        public ItemsController(IItemClientService items) => _items = items;
+        private readonly IItemService _items;
+        public ItemsController(IItemService items) => _items = items;
 
         public async Task<IActionResult> Index(string? q, int page = 1)
         {

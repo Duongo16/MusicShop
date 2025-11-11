@@ -3,10 +3,10 @@ using MusicShop.Common.Transport;
 
 namespace MusicShop.Web.Services.Impl
 {
-    public class AuthClientService : IAuthClientService
+    public class AuthService : IAuthService
     {
         private readonly TcpClientHelper _tcp;
-        public AuthClientService(TcpClientHelper tcp) => _tcp = tcp;
+        public AuthService(TcpClientHelper tcp) => _tcp = tcp;
 
         public async Task<AuthResultOutDTO> RegisterAsync(RegisterInDTO model)
         {

@@ -13,9 +13,14 @@ namespace MusicShop.Web.Controllers
     [Route("[controller]/[action]")]
     public class AccountController : Controller
     {
-        private readonly IAuthClientService _authClient;
+        private readonly IAuthService _authClient;
+        private readonly IAccountService _accountClient;
 
-        public AccountController(IAuthClientService authClient) => _authClient = authClient;
+        public AccountController(IAuthService authClient, IAccountService accountClient)
+        {
+            _authClient = authClient;
+            _accountClient = accountClient;
+        }
 
         [HttpGet]
         public IActionResult Register() => View(new RegisterViewModel());
@@ -83,6 +88,65 @@ namespace MusicShop.Web.Controllers
         {
             HttpContext.Session.Clear();
             return RedirectToAction("Login", "Auth");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Profile()
+        {
+            var userId = GetUserIdFromClaims();
+            if (userId == null) return RedirectToAction("Login", "Account");
+
+            var profile = await _accountClient.GetProfileAsync((Guid)userId);
+            if (profile == null) return NotFound();
+
+            var vm = new ProfileViewModel
+            {
+                Id = profile.Id,
+                Email = profile.Email,
+                UserName = profile.UserName,
+                FullName = profile.FullName,
+                Phone = profile.Phone,
+                Dob = profile.Dob,
+                Address = profile.Address
+            };
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Profile(ProfileViewModel model)
+        {
+            if (!ModelState.IsValid) return View(model);
+
+            var userId = GetUserIdFromClaims();
+            if (userId == null) return RedirectToAction("Login", "Account");
+
+            var dto = new UpdateProfileInDto(
+                userId.Value,
+                model.UserName,
+                model.FullName,
+                model.Phone,
+                model.Dob,
+                model.Address
+            );
+
+            var (succeeded, errors) = await _accountClient.UpdateProfileAsync(dto);
+            if (!succeeded)
+            {
+                foreach (var e in errors) ModelState.AddModelError(string.Empty, e);
+                return View(model);
+            }
+
+            TempData["ProfileSuccess"] = "Profile updated successfully.";
+            return RedirectToAction(nameof(Profile));
+        }
+
+        private Guid? GetUserIdFromClaims()
+        {
+            var idClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (Guid.TryParse(idClaim, out var id)) return id;
+            return null;
         }
 
     }

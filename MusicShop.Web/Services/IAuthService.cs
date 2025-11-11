@@ -2,7 +2,7 @@
 
 namespace MusicShop.Web.Services
 {
-    public interface IAuthClientService
+    public interface IAuthService
     {
         Task<AuthResultOutDTO> RegisterAsync(RegisterInDTO model);
         Task<AuthResultOutDTO> LoginAsync(LoginInDTO model);

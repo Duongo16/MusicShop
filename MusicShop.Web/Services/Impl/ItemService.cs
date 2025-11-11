@@ -5,11 +5,11 @@ using System.Text.Json;
 
 namespace MusicShop.Web.Services.Impl
 {
-    public class ItemClientService : IItemClientService
+    public class ItemService : IItemService
     {
         private readonly TcpClientHelper _tcp;
 
-        public ItemClientService(TcpClientHelper tcp) => _tcp = tcp;
+        public ItemService(TcpClientHelper tcp) => _tcp = tcp;
 
         public async Task<PagedResult<ItemDetailOutDto>> GetListAsync(string? q, int page = 1, int pageSize = 12)
         {
