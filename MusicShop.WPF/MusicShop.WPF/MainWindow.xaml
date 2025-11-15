@@ -5,8 +5,58 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MusicShop.WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Music Shop Dashboard" 
+        WindowState="Maximized"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        Foreground="{StaticResource FgPrimary}"
+        Background="{StaticResource BgWindow}">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="240"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
+        <Border Grid.Column="0" 
+                Background="{StaticResource BgCard}"
+                BorderBrush="{StaticResource Border}"
+                BorderThickness="0,0,1,0">
+
+            <StackPanel Margin="0,20,0,0">
+                <TextBlock Text="DASHBOARD" 
+                           Foreground="{StaticResource FgMuted}"
+                           FontWeight="Bold"
+                           FontSize="12"
+                           Margin="20,0,0,10"
+                           Opacity="0.7"/>
+
+                <RadioButton Content="Quản lý Đơn hàng" 
+                             GroupName="NavGroup"
+                             Style="{StaticResource NavButtonStyle}"
+                             
+                             Click="NavOrder_Click"/>
+
+                <RadioButton Content="Quản lý Sản phẩm" 
+                             GroupName="NavGroup"
+                             Style="{StaticResource NavButtonStyle}" IsChecked="True"
+                             Click="NavItems_Click"/>
+
+                <RadioButton Content="Quản lý Danh mục" 
+                             GroupName="NavGroup"
+                             Style="{StaticResource NavButtonStyle}"
+                             Click="NavCategory_Click"/>
+
+                <RadioButton Content="Quản lý Thương hiệu" 
+                             GroupName="NavGroup"
+                             Style="{StaticResource NavButtonStyle}"
+                             Click="NavBrand_Click"/>
+            </StackPanel>
+        </Border>
+
+        <Frame Grid.Column="1"
+               x:Name="MainFrame"
+               NavigationUIVisibility="Hidden"
+               Background="Transparent"
+               Loaded="MainFrame_Loaded"/>
     </Grid>
 </Window>

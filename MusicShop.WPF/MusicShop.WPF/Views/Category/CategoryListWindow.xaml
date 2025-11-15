@@ -1,8 +1,7 @@
-﻿<Window x:Class="MusicShop.WPF.Views.Category.CategoryListWindow"
+﻿<Page x:Class="MusicShop.WPF.Views.Category.CategoryListWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Categories Managements" Height="640" Width="960"
-        WindowStartupLocation="CenterScreen"
+        Title="Categories Managements" 
         Background="{StaticResource BgWindow}">
     <DockPanel LastChildFill="True" Margin="16">
 
@@ -98,4 +97,4 @@
         </Border>
 
     </DockPanel>
-</Window>
+</Page>

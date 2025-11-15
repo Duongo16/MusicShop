@@ -4,7 +4,7 @@ using System.Windows;
 
 namespace MusicShop.WPF.Views.Brand
 {
-    public partial class BrandListWindow : Window
+    public partial class BrandListWindow
     {
         private readonly BrandListViewModel _vm = new();
         public BrandListWindow()

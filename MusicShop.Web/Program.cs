@@ -32,10 +32,11 @@ builder.Services.AddSingleton(new TcpClientHelper());
 builder.Services.AddScoped<IItemService, ItemService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
-
+builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 
 var app = builder.Build();
-
+    
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");

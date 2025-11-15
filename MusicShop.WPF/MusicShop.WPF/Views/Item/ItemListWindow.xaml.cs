@@ -2,7 +2,7 @@
 
 namespace MusicShop.WPF.Views.Item
 {
-    public partial class ItemListWindow : Window
+    public partial class ItemListWindow 
     {
         private readonly ItemListViewModel _vm = new();
         public ItemListWindow()

@@ -3,12 +3,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MusicShop.Common.DTOs;
+using MusicShop.Common.DTOs.Cart;
+using MusicShop.Common.DTOs.Order;
+using MusicShop.Common.Models;
 using MusicShop.Common.Transport;
 using MusicShop.Server.Core.Services;
 using System.Net;
 using System.Net.Sockets;
 using System.Text.Json;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MusicShop.Server.Host.Infrastructure
 {
@@ -49,6 +51,8 @@ namespace MusicShop.Server.Host.Infrastructure
             var brandService = scope.ServiceProvider.GetRequiredService<IBrandService>();
             var authService = scope.ServiceProvider.GetRequiredService<IAuthService>();
             var accountService = scope.ServiceProvider.GetRequiredService<IUserService>();
+            var cartService = scope.ServiceProvider.GetRequiredService<ICartService>();
+            var orderService = scope.ServiceProvider.GetRequiredService<IOrderService>();
             using var stream = client.GetStream();
 
             try
@@ -272,6 +276,99 @@ namespace MusicShop.Server.Host.Infrastructure
                                     break;
                                 }
 
+
+                            // =================== CART ===================
+                            case "Cart.GetByUserOrGuest":
+                                {
+                                    var p = JsonSerializer.Deserialize<GetCartInDTO>(req.Payload?.ToString() ?? "{}", TcpFraming.Json)!;
+                                    var data = await cartService.GetCartAsync(p.UserId, p.GuestId, ct);
+                                    var dataElement = JsonSerializer.SerializeToElement(data, TcpFraming.Json);
+                                    resp = new(req.RequestId, true, dataElement, null);
+                                    break;
+                                }
+                            case "Cart.AddToCart":
+                                {
+                                    var p = JsonSerializer.Deserialize<CartItemInDto>(req.Payload?.ToString() ?? "{}", TcpFraming.Json)!;
+                                    var data = await cartService.AddToCartAsync(p, ct);
+                                    var dataElement = JsonSerializer.SerializeToElement(data, TcpFraming.Json);
+                                    resp = new(req.RequestId, true, dataElement, null);
+                                    break;
+                                }
+                            case "Cart.RemoveFromCart":
+                                {
+                                    var p = JsonSerializer.Deserialize<RemoveFromCartInDTO>(req.Payload?.ToString() ?? "{}", TcpFraming.Json)!;
+                                    var data = await cartService.RemoveFromCartAsync(p.CartId, p.ItemId, ct);
+                                    var dataElement = JsonSerializer.SerializeToElement(data, TcpFraming.Json);
+                                    resp = new(req.RequestId, true, dataElement, null);
+                                    break;
+                                }
+                            case "Cart.UpdateQty":
+                                {
+                                    var p = JsonSerializer.Deserialize<UpdateCartQtyInDTO>(req.Payload?.ToString() ?? "{}", TcpFraming.Json)!;
+                                    var data = await cartService.UpdateQtyAsync(p.CartId, p.ItemId, p.Qty, ct);
+                                    var dataElement = JsonSerializer.SerializeToElement(data, TcpFraming.Json);
+                                    resp = new(req.RequestId, true, dataElement, null);
+                                    break;
+                                }
+
+                            // =================== CHECKOUT - ORDER ===================
+                            case "Order.Checkout":
+                                {
+                                    var p = JsonSerializer.Deserialize<OrderCheckoutRequestDTO>(req.Payload?.ToString() ?? "{}", TcpFraming.Json);
+                                    var data = await orderService.CheckoutAsync(p, ct);
+                                    var envelope = new
+                                    {
+                                        Ok = data.Succeeded,
+                                        Error = data.Error,
+                                        order = data.Order
+                                    };
+
+                                    var dataElement = JsonSerializer.SerializeToElement(envelope, TcpFraming.Json);
+                                    resp = new(req.RequestId, true, dataElement, null);
+                                    break;  
+                                }
+                            case "Order.UpdateStatus":
+                                {
+                                    var p = JsonSerializer.Deserialize<OrderUpdateStatusRequestDTO>(req.Payload?.ToString() ?? "{}", TcpFraming.Json);
+                                    var data = await orderService.UpdateOrderStatusAsync(p, ct);
+                                    var envelope = new
+                                    {
+                                        Ok = data.Succeeded,
+                                        Error = data.Error
+                                    };
+                                    var dataElement = JsonSerializer.SerializeToElement(envelope, TcpFraming.Json);
+                                    resp = new(req.RequestId, true, dataElement, null);
+                                    break;
+                                }
+                            case "Order.GetList":
+                                {
+                                    var payload = JsonSerializer.Deserialize<GetListPayload>(req.Payload?.ToString() ?? "{}", TcpFraming.Json)!;
+
+                                    var allOrders = await orderService.GetAllOrdersAsync(); 
+
+                                    var query = payload.Q?.Trim().ToLower();
+                                    if (!string.IsNullOrEmpty(query))
+                                        allOrders = allOrders
+                                            .Where(o => o.OrderNumber.ToLower().Contains(query))
+                                            .ToList();
+
+                                    var totalCount = allOrders.Count;
+
+                                    var items = allOrders
+                                        .Skip((payload.Page - 1) * payload.PageSize)
+                                        .Take(payload.PageSize)
+                                        .ToList();
+
+                                    var pagedResult = new PagedResult<OrderListItemOutDTO>
+                                    {
+                                        Items = items,
+                                        TotalCount = totalCount
+                                    };
+
+                                    var dataElement = JsonSerializer.SerializeToElement(pagedResult, TcpFraming.Json);
+                                    resp = new(req.RequestId, true, dataElement, null);
+                                    break;
+                                }
                             default:
                                 resp = new(req.RequestId, false, null, $"Unknown Op: {req.Op}");
                                 break;

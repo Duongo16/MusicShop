@@ -1,0 +1,165 @@
+﻿/* 1. Import Font & Cài đặt chung */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+
+:root {
+    --theme-primary: #4F46E5; /* Màu Indigo chủ đạo */
+    --theme-primary-dark: #4338CA;
+    --theme-danger: #EF4444;
+    --theme-text-dark: #111827;
+    --theme-text-muted: #6B7280;
+    --theme-border: #e2e8f0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8f9fa; /* Nền hơi xám nhẹ */
+}
+
+/* 2. Ghi đè Bootstrap với màu chủ đạo */
+.btn-primary {
+    background-color: var(--theme-primary);
+    border-color: var(--theme-primary);
+    transition: all 0.2s ease;
+}
+
+    .btn-primary:hover,
+    .btn-primary:focus {
+        background-color: var(--theme-primary-dark);
+        border-color: var(--theme-primary-dark);
+        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+    }
+
+.pagination .page-item.active .page-link {
+    background-color: var(--theme-primary);
+    border-color: var(--theme-primary);
+    z-index: 2;
+}
+
+.pagination .page-link {
+    color: var(--theme-primary);
+}
+
+    .pagination .page-link:hover {
+        color: var(--theme-primary-dark);
+    }
+
+.text-primary {
+    color: var(--theme-primary) !important;
+}
+
+/* 3. Thiết kế Product Card */
+.product-card {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: 1px solid var(--theme-border);
+    border-radius: 0.75rem; /* Bo góc nhiều hơn */
+    background-color: #fff;
+    overflow: hidden; /* Quan trọng để bo góc ảnh */
+}
+
+    .product-card:hover {
+        transform: translateY(-8px); /* Hiệu ứng "lift" rõ rệt */
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08), 0 4px 8px rgba(0, 0, 0, 0.04) !important;
+    }
+
+    .product-card .card-img-container {
+        overflow: hidden; /* Dùng để chứa hiệu ứng zoom */
+    }
+
+    .product-card .card-img-top {
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+    }
+
+    .product-card:hover .card-img-top {
+        transform: scale(1.05); /* Hiệu ứng zoom ảnh khi hover */
+    }
+
+    .product-card .card-body {
+        padding-bottom: 0.5rem;
+    }
+
+    .product-card .card-title {
+        min-height: 48px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        font-size: 1rem; /* Tăng nhẹ 0.95rem -> 1rem */
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+    }
+
+        .product-card .card-title a {
+            color: var(--theme-text-dark);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+            .product-card .card-title a:hover {
+                color: var(--theme-primary);
+            }
+
+/* Định dạng giá */
+.product-price .price-sale {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--theme-danger);
+}
+
+.product-price .price-original {
+    font-size: 0.9rem;
+    color: var(--theme-text-muted);
+    text-decoration: line-through;
+    margin-left: 0.25rem;
+}
+
+.product-price .price-normal {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--theme-text-dark);
+}
+
+.product-card .card-footer {
+    background-color: #fff;
+    border-top: none;
+    padding: 0.75rem 1rem 1rem; /* Tăng padding cho nút */
+}
+
+/* Nút CTA trong card */
+.btn-details {
+    background-color: var(--theme-primary);
+    border-color: var(--theme-primary);
+    color: #fff;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+    .btn-details:hover {
+        background-color: var(--theme-primary-dark);
+        border-color: var(--theme-primary-dark);
+        box-shadow: 0 4px 10px rgba(79, 70, 229, 0.2);
+        transform: translateY(-2px);
+    }
+
+/* 4. Thanh tìm kiếm & Tiêu đề */
+.page-title {
+    font-weight: 700;
+    color: var(--theme-text-dark);
+}
+
+.search-bar .form-control {
+    border-right: 0;
+}
+
+.search-bar .btn {
+    z-index: 3; /* Đảm bảo nút không bị che */
+}
+
+/* 5. Thông báo không có kết quả */
+.no-results-alert {
+    background-color: #fff;
+    border-left: 5px solid #ffc107; /* Màu vàng */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}

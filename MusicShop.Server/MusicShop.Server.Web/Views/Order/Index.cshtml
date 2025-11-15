@@ -1,0 +1,103 @@
+﻿@using MusicShop.Common.DTOs.Order
+@model List<OrderListItemOutDTO>
+
+@functions {
+    string GetStatusBadgeClass(object status)
+    {
+        string normalizedStatus = status?.ToString().ToLower().Trim() ?? "unknown";
+
+        switch (normalizedStatus)
+        {
+            case "completed":
+            case "hoàn thành":
+            case "đã giao":
+                return "bg-success"; // Xanh lá
+
+            case "processing":
+            case "đang xử lý":
+            case "shipped":
+            case "đang giao hàng":
+                return "bg-primary"; // Xanh Indigo (màu theme)
+
+            case "pending":
+            case "chờ thanh toán":
+            case "chờ xác nhận":
+                return "bg-warning text-dark"; // Vàng
+
+            case "cancelled":
+            case "đã hủy":
+                return "bg-danger"; // Đỏ
+
+            default:
+                return "bg-secondary"; // Xám (cho các trạng thái khác)
+        }
+    }
+}
+
+@{
+    ViewData["Title"] = "Đơn hàng của tôi";
+}
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="page-title d-flex align-items-center">
+                <i class="bi bi-receipt-cutoff me-3 fs-1 text-primary" aria-hidden="true"></i>
+                <span>Đơn hàng của tôi</span>
+            </h2>
+        </div>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="row">
+            <div class="col-12">
+                <div class="content-card text-center p-5">
+                    <i class="bi bi-box-seam" style="font-size: 4rem; color: var(--theme-text-muted);" aria-hidden="true"></i>
+                    <h4 class="mt-3">Bạn chưa có đơn hàng nào</h4>
+                    <p class="text-muted">Tất cả đơn hàng bạn đã đặt sẽ xuất hiện ở đây.</p>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-primary btn-lg shadow-sm mt-3">
+                        <i class="bi bi-arrow-left me-2"></i> Bắt đầu mua sắm
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="order-list-container">
+            @foreach (var o in Model)
+            {
+                <div class="content-card mb-3">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h5 class="mb-0 fw-bold" style="color: var(--theme-text-dark);">
+                                Mã đơn: #@o.OrderNumber
+                            </h5>
+                            <small class="text-muted">
+                                Ngày đặt: @o.CreatedAt.ToString("dd/MM/yyyy HH:mm")
+                            </small>
+                        </div>
+                        <span class="badge @GetStatusBadgeClass(o.Status) fs-6 rounded-pill p-2 px-3">
+                            @o.Status
+                        </span>
+                    </div>
+
+                    <hr style="border-color: var(--theme-border);">
+
+                    <div class="d-flex justify-content-between align-items-center pt-2">
+                        <div class="order-total">
+                            <span class="text-muted">Tổng tiền:</span>
+                            <strong class="fs-5 ms-1" style="color: var(--theme-danger);">
+                                @o.Total.ToString("N0")đ
+                            </strong>
+                        </div>
+                        <a asp-action="Details" asp-route-id="@o.Id" class="btn btn-primary">
+                            <i class="bi bi-eye-fill me-1"></i> Xem chi tiết
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

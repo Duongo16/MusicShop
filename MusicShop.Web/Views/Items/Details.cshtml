@@ -64,7 +64,7 @@
 
             <form asp-controller="Cart" asp-action="Add" method="post" class="mt-4">
 
-                <input type="hidden" name="productId" value="@product.Id" />
+                <input type="hidden" name="itemId" value="@product.Id" />
 
                 @if (product.StockQty > 0)
                 {
@@ -76,7 +76,6 @@
                                 <input name="Quantity" type="number" class="form-control text-center" value="@quantity" min="1" max="@product.StockQty" id="quantityInput" />
                                 <button class="btn btn-outline-secondary" type="button" onclick="changeQuantity(1)">+</button>
                             </div>
-                            <!-- Remove asp-validation-for since Quantity is not part of the model -->
                         </div>
                     </div>
 

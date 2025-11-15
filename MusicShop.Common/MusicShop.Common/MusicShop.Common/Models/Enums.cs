@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MusicShop.Common.Models
+﻿namespace MusicShop.Common.Models
 {
     public enum Role : byte { Admin = 1, Staff = 2, Customer = 3 }
 
-    public enum OrderStatus : byte { Pending = 1, Paid = 2, Cancelled = 3, Shipped = 4 }
+    public enum OrderStatus : byte { Pending = 1, Paid = 2, Cancelled = 3, Shipped = 4, Shipping = 5 }
     public enum PaymentMethod : byte { Cod = 1, Bank = 2, Momo = 3, VnPay = 4 }
     public enum PaymentStatus : byte { Init = 1, Success = 2, Failed = 3, Refunded = 4 }
 

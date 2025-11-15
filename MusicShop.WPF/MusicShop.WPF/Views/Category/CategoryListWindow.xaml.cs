@@ -3,7 +3,7 @@ using System.Windows;
 
 namespace MusicShop.WPF.Views.Category
 {
-    public partial class CategoryListWindow : Window
+    public partial class CategoryListWindow
     {
         private readonly CategoryListViewModel _vm = new();
         public CategoryListWindow()

@@ -1,0 +1,70 @@
+﻿@using MusicShop.Common.ViewModels
+@model CheckoutViewModel
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<h2>Checkout</h2>
+
+@if (Model.Cart == null || !Model.Cart.Items.Any())
+{
+    <div class="alert alert-info">Giỏ hàng trống.</div>
+    <a asp-controller="Items" asp-action="Index" class="btn btn-primary">Tiếp tục mua sắm</a>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="Index" method="post">
+                @Html.AntiForgeryToken()
+                <div class="mb-3">
+                    <label class="form-label">Họ và tên</label>
+                    <input asp-for="Address.Name" class="form-control" />
+                    <span asp-validation-for="Address.Name" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Số điện thoại</label>
+                    <input asp-for="Address.Phone" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Địa chỉ</label>
+                    <textarea asp-for="Address.AddressFull" class="form-control"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Phương thức thanh toán</label>
+                    <select asp-for="PaymentMethod" class="form-select">
+                        <option value="CashOnDelivery">Thanh toán khi nhận hàng</option>
+                        <option value="OnlineCard">Thanh toán thẻ</option>
+                        <!-- add others -->
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-success">Xác nhận & Thanh toán</button>
+            </form>
+        </div>
+
+        <div class="col-md-6">
+            <h4>Đơn hàng</h4>
+            <ul class="list-group">
+                @foreach (var it in Model.Cart.Items)
+                {
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>@it.ItemName</strong><br />
+                            <small>@it.Qty x @it.UnitPrice.ToString("N0")đ</small>
+                        </div>
+                        <span>@(it.LineTotal.ToString("N0") + "đ")</span>
+                    </li>
+                }
+                <li class="list-group-item d-flex justify-content-between">
+                    <strong>Tổng</strong>
+                    <strong class="text-danger">@Model.Cart.Total.ToString("N0")đ</strong>
+                </li>
+            </ul>
+        </div>
+    </div>
+}
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

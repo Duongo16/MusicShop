@@ -1,0 +1,107 @@
+﻿@using MusicShop.Common.ViewModels
+@model ProfileViewModel
+@{
+    ViewData["Title"] = "Hồ sơ của tôi";
+}
+
+<div class="container my-5">
+    <div class="row">
+
+        <div class="col-lg-3 mb-4">
+            <div class="content-card p-0">
+                <nav class="nav flex-column profile-nav">
+                    <a class="nav-link active" href="#" aria-current="page">
+                        <i class="bi bi-person-circle me-2"></i> Hồ sơ của tôi
+                    </a>
+                    <a class="nav-link" href="#">
+                        <i class="bi bi-receipt me-2"></i> Đơn hàng của tôi
+                    </a>
+                    <a class="nav-link" href="#">
+                        <i class="bi bi-key-fill me-2"></i> Đổi mật khẩu
+                    </a>
+                    <a class="nav-link text-danger" href="#">
+                        <i class="bi bi-box-arrow-right me-2"></i> Đăng xuất
+                    </a>
+                </nav>
+            </div>
+        </div>
+
+        <div class="col-lg-9">
+            <div class="content-card">
+
+                <div class="content-card-header">
+                    <h2 class="page-title mb-0">Hồ sơ của tôi</h2>
+                    <p class="text-muted mb-0">Quản lý thông tin cá nhân của bạn.</p>
+                </div>
+
+                <form asp-action="Profile" method="post" class="mt-3">
+                    @Html.AntiForgeryToken()
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="profile-avatar-container">
+                        <img src="https://placehold.co/100x100/eeeeee/cccccc?text=User" alt="Avatar" class="profile-avatar" />
+                        <div class="ms-3">
+                            <h5 class="mb-0">@(Model.UserName ?? "Tên người dùng")</h5>
+                            <button type="button" class="btn btn-sm btn-outline-primary mt-1">
+                                <i class="bi bi-upload me-1"></i> Thay đổi ảnh
+                            </button>
+                            <p class="text-muted small mt-1 mb-0">JPG, GIF hoặc PNG. Tối đa 5MB.</p>
+                        </div>
+                    </div>
+
+                    @if (TempData["ProfileSuccess"] != null)
+                    {
+                        <div class="alert alert-success mt-3">@TempData["ProfileSuccess"]</div>
+                    }
+
+                    <div class="row g-3 mt-3">
+                        <div class="col-md-6">
+                            <label asp-for="Email" class="form-label auth-form-label"></label>
+                            <input asp-for="Email" class="form-control-plaintext form-control-modern px-3" readonly />
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="UserName" class="form-label auth-form-label"></label>
+                            <input asp-for="UserName" class="form-control form-control-modern" />
+                            <span asp-validation-for="UserName" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="FullName" class="form-label auth-form-label"></label>
+                            <input asp-for="FullName" class="form-control form-control-modern" />
+                            <span asp-validation-for="FullName" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="Phone" class="form-label auth-form-label"></label>
+                            <input asp-for="Phone" class="form-control form-control-modern" />
+                            <span asp-validation-for="Phone" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="Dob" class="form-label auth-form-label"></label>
+                            <input asp-for="Dob" class="form-control form-control-modern" type="date" />
+                            <span asp-validation-for="Dob" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="Address" class="form-label auth-form-label"></label>
+                            <textarea asp-for="Address" class="form-control form-control-modern" rows="3"></textarea>
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="content-card-footer mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg shadow-sm">
+                            <i class="bi bi-check-circle-fill me-2"></i> Lưu thay đổi
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

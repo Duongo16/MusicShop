@@ -1,0 +1,120 @@
+﻿@model MusicShop.Common.DTOs.Cart.CartOutDto
+@{
+    ViewData["Title"] = "Cart";
+}
+
+<h2>Your cart</h2>
+
+@if (TempData["CartError"] != null)
+{
+    <div class="alert alert-danger">@TempData["CartError"]</div>
+}
+
+@if (!Model.Items.Any())
+{
+    <p>Your cart is empty.</p>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Continue shopping</a>
+}
+else    
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th style="width:120px">UnitPrice</th>
+                <th style="width:120px">Qty</th>
+                <th style="width:120px">Line</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var it in Model.Items)
+            {
+                <tr>
+                    <td>@it.ItemName</td>
+                    <td>@it.UnitPrice.ToString("C")</td>
+                    <td>
+                        <form asp-action="UpdateQty" method="post" class="d-flex">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="cartId" value="@it.CartId" />
+                            <input type="hidden" name="itemId" value="@it.ItemId" />
+
+                            <input type="number" name="qty" value="@it.Qty" min="0"
+                                   class="form-control form-control-sm qty-input" style="width:80px" />
+
+                            <button class="btn btn-sm btn-primary ms-2" style="display: none;">Update</button>
+                        </form>
+                    </td>
+
+                    <td id="line-total-@it.ItemId">@it.LineTotal.ToString("C")</td>
+
+                    <td>
+                        <form asp-action="Remove" method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="cartId" value="@it.CartId" />
+                            <input type="hidden" name="itemId" value="@it.ItemId" />
+                            <button class="btn btn-sm btn-danger">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3" class="text-end"><strong>Total</strong></td>
+
+                <td id="cart-total">@Model.Total.ToString("C")</td>
+
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <a asp-controller="Checkout" asp-action="Index" class="btn btn-success">Checkout</a>
+}
+
+@section Scripts {
+    <script>
+        document.querySelectorAll('.qty-input').forEach(input => {
+            input.addEventListener('change', function(e) {
+
+                const form = this.closest('form');
+                const url = form.action;
+                const itemId = form.querySelector('input[name="itemId"]').value;
+                const formData = new FormData(form);
+
+                fetch(url, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.succeeded) {
+                        document.getElementById('cart-total').textContent = data.cartTotal;
+
+                        if (data.itemRemoved) {
+                            form.closest('tr').remove();
+                        } else {
+                            document.getElementById('line-total-' + itemId).textContent = data.lineTotal;
+                        }
+
+                    } else {
+                        alert('Lỗi: ' + (data.errors ? data.errors.join(', ') : 'Lỗi không xác định'));
+                        if (data.maxAllowed != null) {
+                            this.value = data.maxAllowed;
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                    alert('Lỗi kết nối, không thể cập nhật giỏ hàng.');
+                });
+            });
+        });
+    </script>
+}

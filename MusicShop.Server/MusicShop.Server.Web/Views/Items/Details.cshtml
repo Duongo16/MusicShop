@@ -1,0 +1,218 @@
+﻿@model MusicShop.Common.DTOs.ItemDetailOutDto
+@{
+    ViewData["Title"] = Model.Name;
+    var product = Model;
+    int quantity = 1;
+}
+
+<!--
+    GHI CHÚ TỪ DESIGNER:
+    - Đã áp dụng layout (price box, 2-button CTA, tabs)
+      nhưng giữ nguyên màu chủ đạo (indigo).
+    - Class "shopee-" đã được thay bằng class chung chung (ví dụ: .content-card).
+    - "Quay lại" đã chuyển thành icon.
+    - "Mô tả" được định dạng lại trong Tab, có tiêu đề rõ ràng.
+    - Giữ nguyên 100% logic script và form submit.
+-->
+
+<div class="container my-4">
+
+    <!-- NÚT QUAY LẠI (ĐÃ DI CHUYỂN LÊN TRÊN) -->
+    <div class="mb-3">
+        <a asp-action="Index" class="back-to-shop-link" title="Quay lại danh sách">
+            <i class="bi bi-arrow-left me-1"></i> Quay lại danh sách
+        </a>
+    </div>
+
+    <!-- KHUNG CHÍNH (ẢNH & THÔNG TIN) -->
+    <div class="content-card mb-4">
+        <div class="row">
+            <!-- CỘT BÊN TRÁI (HÌNH ẢNH) -->
+            <div class="col-lg-5 mb-4">
+                <div class="product-detail-image shadow-sm">
+                    <img src="@(string.IsNullOrEmpty(product.ImageUrl) ? "https://placehold.co/600x600/eeeeee/cccccc?text=Music+Item" : product.ImageUrl)"
+                         class="img-fluid rounded w-100"
+                         style="aspect-ratio: 1/1; object-fit: cover;"
+                         alt="@product.Name"
+                         onerror="this.onerror=null; this.src='https://placehold.co/600x600/eeeeee/cccccc?text=Image+Error';">
+                </div>
+
+                <!-- Nút quay lại (Icon-only) -->
+                <!-- ĐÃ XÓA NÚT QUAY LẠI Ở ĐÂY -->
+            </div>
+
+            <!-- CỘT BÊN PHẢI (THÔNG TIN & CTA) -->
+            <div class="col-lg-7">
+
+                @if (product.Brand != null)
+                {
+                    <h6 class="text-muted text-uppercase fw-normal mb-1">@product.Brand.Name</h6>
+                }
+
+                <h1 class="page-title" style="font-size: 1.75rem; line-height: 1.3;">@product.Name</h1>
+
+                <p class="text-muted small">SKU: @product.Sku</p>
+
+                <!-- GIÁ SẢN PHẨM (BOX NỀN NHẠT - LÀM NỔI BẬT HƠN) -->
+                <div class="my-3 p-3 product-price-box">
+                    @if (product.SalePrice.HasValue && product.SalePrice < product.Price)
+                    {
+                        <span class="text-muted text-decoration-line-through fs-4 me-3">@product.Price.ToString("N0")đ</span>
+                        <span class="display-4 fw-bold text-danger">@product.SalePrice.Value.ToString("N0")đ</span>
+                    }
+                    else
+                    {
+                        <span class="display-4 fw-bold text-dark">@product.Price.ToString("N0")đ</span>
+                    }
+                </div>
+
+                <!-- TRẠNG THÁI KHO HÀNG -->
+                <div class="mb-3">
+                    @if (product.StockQty > 0)
+                    {
+                        <span class="text-muted">Kho: <span class="text-dark fw-bold">@product.StockQty</span></span>
+                    }
+                    else
+                    {
+                        <span class="badge stock-status out-of-stock">
+                            <i class="bi bi-x-circle-fill me-1"></i> Hết hàng
+                        </span>
+                    }
+                </div>
+
+                <!-- FORM THÊM VÀO GIỎ -->
+                <form asp-controller="Cart" asp-action="Add" method="post" class="mt-4">
+
+                    <input type="hidden" name="itemId" value="@product.Id" />
+
+                    @if (product.StockQty > 0)
+                    {
+                        <!-- BỘ CHỌN SỐ LƯỢNG (LAYOUT NGANG) -->
+                        <div class="mb-4 row align-items-center">
+                            <div class="col-auto">
+                                <label for="quantityInput" class="form-label text-muted mb-0">Số lượng:</label>
+                            </div>
+                            <div class="col-auto">
+                                <div class="quantity-stepper">
+                                    <button class="btn" type="button" onclick="changeQuantity(-1)">-</button>
+                                    <input name="Quantity" type="number" class="form-control" value="@quantity" min="1" max="@product.StockQty" id="quantityInput" />
+                                    <button class="btn" type="button" onclick="changeQuantity(1)">+</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- NÚT CTA (LAYOUT 2 NÚT) -->
+                        <div class="d-flex flex-wrap gap-2 mt-4">
+                            <!-- Nút Thêm vào giỏ (SUBMIT FORM) -->
+                            <button type="submit" class="btn btn-outline-primary btn-cta-ecom">
+                                <i class="bi bi-cart-plus me-2"></i> Thêm vào giỏ
+                            </button>
+                            <!-- Nút Mua ngay (DEMO UI) -->
+                            <button type="button" class="btn btn-primary btn-cta-ecom">
+                                Mua ngay
+                            </button>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="button" class="btn btn-secondary btn-lg" disabled>
+                                Sản phẩm đã hết hàng
+                            </button>
+                        </div>
+                    }
+                </form>
+
+                <!-- PHẦN CHIA SẺ (ĐÃ XÓA) -->
+
+            </div>
+        </div>
+    </div>
+
+    <!-- TABS MÔ TẢ & THÔNG SỐ (LAYOUT MỚI) -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="product-tabs">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" id="productTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="desc-tab" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab" aria-controls="description" aria-selected="true">
+                            Mô tả sản phẩm
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="spec-tab" data-bs-toggle="tab" data-bs-target="#specifications" type="button" role="tab" aria-controls="specifications" aria-selected="false">
+                            Chi tiết sản phẩm
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content" id="productTabContent">
+                    <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="desc-tab">
+                        <div class="content-card">
+                            <h5 class="product-tab-title">Mô tả sản phẩm</h5>
+                            @if (!string.IsNullOrEmpty(product.Description))
+                            {
+                                <p class="text-body" style="white-space: pre-wrap; line-height: 1.7;">@product.Description</p>
+                            }
+                            else
+                            {
+                                <p class="text-muted">Sản phẩm này hiện chưa có mô tả chi tiết.</p>
+                            }
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="specifications" role="tabpanel" aria-labelledby="spec-tab">
+                        <div class="content-card">
+                            <h5 class="product-tab-title">Chi tiết sản phẩm</h5>
+                            <table class="product-spec-table">
+                                <tbody>
+                                    <tr>
+                                        <td>Thương hiệu</td>
+                                        <td>@(product.Brand != null ? product.Brand.Name : "N/A")</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mã sản phẩm (SKU)</td>
+                                        <td>@product.Sku</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Bảo hành</td>
+                                        <td>12 tháng</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tình trạng</td>
+                                        <td>Mới 100%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // Script gốc của bạn - không thay đổi
+        function changeQuantity(amount) {
+            var input = document.getElementById('quantityInput');
+            var currentValue = parseInt(input.value) || 1;
+            var maxValue = parseInt(input.max) || 100;
+            var minValue = parseInt(input.min) || 1;
+
+            var newValue = currentValue + amount;
+
+            if (newValue < minValue) {
+                newValue = minValue;
+            }
+            if (newValue > maxValue) {
+                newValue = maxValue;
+            }
+
+            input.value = newValue;
+        }
+    </script>
+}

@@ -1,13 +1,9 @@
-﻿<!-- WPF/Views/Brands/BrandListWindow.xaml -->
-<Window x:Class="MusicShop.WPF.Views.Brand.BrandListWindow"
+﻿<Page x:Class="MusicShop.WPF.Views.Brand.BrandListWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Brand Management"
-        WindowStartupLocation="CenterScreen"
+        Title="Brand Management" 
         Background="{StaticResource BgWindow}"
-        WindowState="Maximized"
-        WindowStyle="SingleBorderWindow"
-        ResizeMode="CanResize">
+        >
     <DockPanel LastChildFill="True" Margin="16">
 
         <!-- Toolbar -->
@@ -100,4 +96,4 @@
             </DataGrid>
         </Border>
     </DockPanel>
-</Window>
+</Page>

@@ -1,0 +1,200 @@
+﻿@using MusicShop.Common.DTOs.Order
+@model OrderDetailOutDTO
+
+@functions {
+    string GetOrderStatusBadgeClass(string status)
+    {
+        string normalizedStatus = status?.ToLower().Trim() ?? "unknown";
+        switch (normalizedStatus)
+        {
+            case "completed":
+            case "hoàn thành":
+            case "đã giao":
+                return "bg-success"; // Xanh lá
+            case "processing":
+            case "đang xử lý":
+            case "shipped":
+            case "đang giao hàng":
+                return "bg-primary"; // Xanh Indigo (màu theme)
+            case "pending":
+            case "chờ thanh toán":
+            case "chờ xác nhận":
+                return "bg-warning text-dark"; // Vàng
+            case "cancelled":
+            case "đã hủy":
+                return "bg-danger"; // Đỏ
+            default:
+                return "bg-secondary"; // Xám
+        }
+    }
+
+    string GetPaymentStatusBadgeClass(string status)
+    {
+        string normalizedStatus = status?.ToLower().Trim() ?? "unknown";
+        switch (normalizedStatus)
+        {
+            case "paid":
+            case "succeeded":
+            case "thành công":
+                return "bg-success";
+            case "pending":
+            case "chờ xử lý":
+                return "bg-warning text-dark";
+            case "failed":
+            case "thất bại":
+                return "bg-danger";
+            default:
+                return "bg-secondary";
+        }
+    }
+
+    string GetPaymentMethodName(string method)
+    {
+        string normalizedMethod = method?.ToLower().Trim() ?? "unknown";
+        switch (normalizedMethod)
+        {
+            case "cashondelivery":
+                return "Thanh toán khi nhận hàng (COD)";
+            case "onlinecard":
+                return "Thanh toán Online";
+            default:
+                return method; // Trả về tên gốc nếu không khớp
+        }
+    }
+}
+
+@{
+    ViewData["Title"] = $"Chi tiết đơn hàng #{Model.OrderNumber}";
+}
+
+<div class="container my-5">
+    <div class="row mb-3">
+        <div class="col-12">
+            <a asp-action="Index" class="btn btn-link text-muted text-decoration-none p-0 mb-2">
+                <i class="bi bi-arrow-left me-2"></i> Quay lại danh sách
+            </a>
+
+            <h2 class="page-title d-flex align-items-center">
+                <i class="bi bi-file-earmark-text-fill me-3 fs-1 text-primary" aria-hidden="true"></i>
+                <span>Chi tiết Đơn hàng: #@Model.OrderNumber</span>
+            </h2>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="content-card mb-4">
+                <h4 class="mb-3">Danh sách sản phẩm</h4>
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                        <thead>
+                            <tr>
+                                <th class="fw-normal text-muted" scope="col">Sản phẩm</th>
+                                <th class="fw-normal text-muted" scope="col">Đơn giá</th>
+                                <th class="fw-normal text-muted" scope="col">Số lượng</th>
+                                <th class="fw-normal text-muted" scope="col" class="text-end">Thành tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var i in Model.Items)
+                            {
+                                <tr>
+                                    <td>
+                                        <span class="fw-bold d-block" style="color: var(--theme-text-dark);">
+                                            @i.ItemName
+                                        </span>
+                                    </td>
+                                    <td>@i.UnitPrice.ToString("N0")đ</td>
+                                    <td>@i.Qty</td>
+                                    <td class="text-end">
+                                        <strong style="color: var(--theme-text-dark);">
+                                            @i.LineTotal.ToString("N0")đ
+                                        </strong>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <h4 class="mb-3">Lịch sử thanh toán</h4>
+                @if (Model.Payments.Any())
+                {
+                    <ul class="list-group list-group-flush">
+                        @foreach (var p in Model.Payments)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                <div>
+                                    <span class="fw-bold d-block" style="color: var(--theme-text-dark);">
+                                        @GetPaymentMethodName(p.Method.ToString())
+                                    </span>
+                                    <span class="text-muted">
+                                        Giá trị: <strong style="color: var(--theme-danger);">@p.Amount.ToString("N0")đ</strong>
+                                    </span>
+                                </div>
+                                <span class="badge @GetPaymentStatusBadgeClass(p.Status.ToString()) rounded-pill p-2 px-3">
+                                    @p.Status
+                                </span>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p class="text-muted">Chưa có thông tin thanh toán cho đơn hàng này.</p>
+                }
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="cart-summary-sticky">
+                <div class="content-card mb-4">
+                    <h4 class="mb-3">Tóm tắt đơn hàng</h4>
+
+                    <div class="mb-3">
+                        <span class="badge @GetOrderStatusBadgeClass(Model.Status.ToString()) fs-6 rounded-pill p-2 px-3 w-100">
+                            @Model.Status
+                        </span>
+                    </div>
+
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted">Ngày tạo</span>
+                        <span class="fw-bold" style="color: var(--theme-text-dark);">@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</span>
+                    </div>
+
+                    <hr class="my-3" style="border-color: var(--theme-border);">
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="fw-bold fs-5" style="color: var(--theme-text-dark);">Tổng cộng</span>
+                        <span class="fw-bold fs-4 text-primary">@Model.Total.ToString("N0")đ</span>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h4 class="mb-3">Địa chỉ giao hàng</h4>
+                    @if (Model.Address != null)
+                    {
+                        <p class="fw-bold mb-1" style="color: var(--theme-text-dark);">
+                            <i class="bi bi-person-fill me-2 text-muted"></i>
+                            @Model.Address.Name
+                        </p>
+                        <p class="mb-1 text-muted">
+                            <i class="bi bi-phone-fill me-2 text-muted"></i>
+                            @Model.Address.Phone
+                        </p>
+                        <p class="mb-0 text-muted" style="line-height: 1.5;">
+                            <i class="bi bi-geo-alt-fill me-2 text-muted"></i>
+                            @Model.Address.AddressFull
+                        </p>
+                    }
+                    else
+                    {
+                        <p class="text-muted">Không có thông tin địa chỉ giao hàng.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

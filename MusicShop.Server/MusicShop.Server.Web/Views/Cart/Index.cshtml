@@ -1,0 +1,329 @@
+﻿@model MusicShop.Common.DTOs.Cart.CartOutDto
+@{
+    ViewData["Title"] = "Giỏ hàng";
+}
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="page-title d-flex align-items-center">
+                <i class="bi bi-cart-check-fill me-3 fs-1 text-primary" aria-hidden="true"></i>
+                <span>Giỏ hàng của bạn</span>
+            </h2>
+        </div>
+    </div>
+
+    @if (TempData["CartError"] != null)
+    {
+        <div class="alert alert-danger" role="alert">@TempData["CartError"]</div>
+    }
+
+    @if (Model == null || !Model.Items.Any())
+    {
+        <div class="col-12">
+            <div class="content-card text-center p-5">
+                <i class="bi bi-cart-x" style="font-size: 4rem; color: var(--theme-secondary);" aria-hidden="true"></i>
+                <h4 class="mt-3">Giỏ hàng của bạn đang trống</h4>
+                <p class="text-muted">Hãy quay lại và lựa chọn những nhạc cụ tuyệt vời nhé.</p>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-primary btn-lg shadow-sm mt-3">
+                    <i class="bi bi-arrow-left me-2"></i> Tiếp tục mua sắm
+                </a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            <!-- CỘT BÊN TRÁI: DANH SÁCH SẢN PHẨM -->
+            <div class="col-lg-8">
+                @foreach (var it in Model.Items)
+                {
+                    <div class="content-card cart-item-card" id="cart-item-@it.ItemId">
+                        <div class="row g-3 align-items-center">
+                            <!-- Tên và Giá -->
+                            <div class="col">
+                                <h5 class="cart-item-name">@it.ItemName</h5>
+                                <p class="cart-item-price">@it.UnitPrice.ToString("N0")đ</p>
+                            </div>
+
+                            <!-- Số lượng (AJAX) -->
+                            <div class="col-md-auto">
+                                <form asp-action="UpdateQty" method="post" class="update-qty-form" novalidate>
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="cartId" value="@it.CartId" />
+                                    <input type="hidden" name="itemId" value="@it.ItemId" />
+
+                                    <div class="quantity-stepper d-flex align-items-center">
+                                        <button class="btn stepper-btn" type="button" data-amount="-1" aria-label="Giảm 1">-</button>
+                                        <input type="number" name="qty" value="@it.Qty" min="0" max="@it.StockQty"
+                                               class="form-control qty-input mx-2" style="width:85px;" aria-label="Số lượng" />
+                                        <button class="btn stepper-btn" type="button" data-amount="1" aria-label="Tăng 1">+</button>
+                                    </div>
+                                    <button class="btn btn-sm btn-primary ms-2" style="display: none;">Update</button>
+                                </form>
+                            </div>
+
+                            <!-- Tổng cộng (Line) và Nút Xóa (AJAX) -->
+                            <div class="col-md text-md-end">
+                                <p class="cart-item-line-total" id="line-total-@it.ItemId">
+                                    @it.LineTotal.ToString("N0")đ
+                                </p>
+                                <form asp-action="Remove" method="post" class="remove-item-form d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="cartId" value="@it.CartId" />
+                                    <input type="hidden" name="itemId" value="@it.ItemId" />
+                                    <button type="submit" class="btn btn-sm btn-link text-danger p-0" aria-label="Xóa sản phẩm">
+                                        <i class="bi bi-trash-fill me-1" aria-hidden="true"></i> Xóa
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- CỘT BÊN PHẢI: TÓM TẮT ĐƠN HÀNG (STICKY) -->
+            <div class="col-lg-4">
+                <div class="cart-summary-sticky">
+                    <div class="content-card mb-3">
+                        <h4 class="mb-3">Mã giảm giá</h4>
+                        <div class="input-group">
+                            <input type="text" class="form-control form-control-modern" placeholder="Nhập mã..." aria-label="Mã giảm giá">
+                            <button class="btn btn-primary" type="button">Áp dụng</button>
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <h4 class="mb-3">Tóm tắt đơn hàng</h4>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Tạm tính</span>
+                            <span class="fw-bold" id="cart-subtotal">@Model.Total.ToString("N0")đ</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <span class="text-muted">Giảm giá</span>
+                            <span class="fw-bold text-success">- 0đ</span>
+                        </div>
+                        <hr class="my-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="fw-bold fs-5">Tổng cộng</span>
+                            <span class="fw-bold fs-4 text-primary" id="cart-total-summary">@Model.Total.ToString("N0")đ</span>
+                        </div>
+
+                        <div class="d-grid mt-4">
+                            <a asp-controller="Checkout" asp-action="Index" class="btn btn-primary btn-lg shadow-sm" role="button">
+                                Tiến hành Thanh toán <i class="bi bi-arrow-right ms-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Container cho thông báo (Toast) -->
+<div id="cart-notification-container" aria-live="polite" aria-atomic="true"></div>
+
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // === HÀM THÔNG BÁO (THAY THẾ ALERT) ===
+            function showCartNotification(message, isError = false) {
+                const container = document.getElementById('cart-notification-container');
+                if (!container) return;
+                const notif = document.createElement('div');
+                notif.className = `cart-notification ${isError ? 'error' : 'success'}`;
+                notif.setAttribute('role', isError ? 'alert' : 'status');
+                notif.innerHTML = `<i class="bi ${isError ? 'bi-x-circle-fill' : 'bi-check-circle-fill'} me-2"></i> ${message}`;
+
+                container.appendChild(notif);
+
+                // Hiển thị (allow CSS transition if present)
+                requestAnimationFrame(() => notif.classList.add('show'));
+
+                // Tự động ẩn
+                setTimeout(() => {
+                    notif.classList.remove('show');
+                    // Xóa khỏi DOM sau khi mờ đi
+                    setTimeout(() => {
+                        if (notif.parentNode) container.removeChild(notif);
+                    }, 400);
+                }, 3000); // 3 giây
+            }
+
+            // === HÀM GỌI AJAX (DÙNG CHUNG) ===
+            async function submitCartForm(form) {
+                if (!form) return;
+                const url = form.action;
+                const formData = new FormData(form);
+                const itemIdInput = form.querySelector('input[name="itemId"]');
+                const itemId = itemIdInput ? itemIdInput.value : null;
+
+                // disable inputs to avoid double-submit
+                const controls = form.querySelectorAll('button, input');
+                controls.forEach(c => c.disabled = true);
+
+                try {
+                    const resp = await fetch(url, {
+                        method: 'POST',
+                        body: formData,
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                    });
+
+                    // Try JSON parse, handle non-json gracefully
+                    let data;
+                    try {
+                        data = await resp.json();
+                    } catch (ex) {
+                        throw new Error('Server trả về dữ liệu không hợp lệ.');
+                    }
+
+                    if (data && data.succeeded) {
+
+                        function formatFromPossibleCents(value, isCents) {
+                            if (value == null) return '0đ'; 
+
+                            const numericValue = Number(value); 
+
+                            if (isNaN(numericValue)) return '0đ'; 
+
+                            if (isCents) {
+                                return (numericValue / 100).toLocaleString('vi-VN') + 'đ';
+                            }
+                            return numericValue.toLocaleString('vi-VN') + 'đ';
+                        }
+
+                        // 2. SỬ DỤNG hàm trợ giúp đã sửa cho TỔNG GIỎ HÀNG
+                        const totalIsCents = data.cartTotalInCents != null;
+                        const formattedTotal = totalIsCents
+                            ? formatFromPossibleCents(data.cartTotalInCents, true)
+                            : formatFromPossibleCents(data.cartTotal, false);
+
+
+                        const subtotalEl = document.getElementById('cart-subtotal');
+                        const totalSummaryEl = document.getElementById('cart-total-summary');
+                        if (subtotalEl) subtotalEl.textContent = formattedTotal;
+                        if (totalSummaryEl) totalSummaryEl.textContent = formattedTotal;
+
+                        if (data.itemRemoved) {
+                            if (itemId) {
+                                const itemEl = document.getElementById('cart-item-' + itemId);
+                                if (itemEl) itemEl.remove();
+                            }
+                            showCartNotification('Đã xóa sản phẩm khỏi giỏ hàng.');
+                        } else {
+                            if (itemId) {
+                                const lineEl = document.getElementById('line-total-' + itemId);
+
+                                // === SỬA LỖI NAN (CHO TỔNG DÒNG) ===
+                                const lineIsCents = data.lineTotalInCents != null;
+                                const formattedLine = lineIsCents
+                                    ? formatFromPossibleCents(data.lineTotalInCents, true)
+                                    : formatFromPossibleCents(data.lineTotal, false);
+                                // === KẾT THÚC SỬA LỖI NAN (CHO TỔNG DÒNG) ===
+
+                                if (lineEl) lineEl.textContent = formattedLine;
+                            }
+
+                            // Ensure input reflects server value (if provided)
+                            if (data.newQty != null) {
+                                const qtyInput = form.querySelector('input[name="qty"]');
+                                if (qtyInput) qtyInput.value = data.newQty;
+                            }
+
+                            showCartNotification('Đã cập nhật số lượng.');
+                        }
+
+                        if (data.cartIsEmpty) {
+                            // If cart empty, reload to show empty state (server-side)
+                            location.reload();
+                        }
+                    } else {
+                        const errorMsg = (data && data.errors) ? (Array.isArray(data.errors) ? data.errors.join(', ') : data.errors) : 'Lỗi không xác định.';
+                        showCartNotification(errorMsg, true);
+
+                        // If server returns a maxAllowed value, set it
+                        if (data && data.maxAllowed != null) {
+                            const qtyInput = form.querySelector('input[name="qty"]');
+                            if (qtyInput) qtyInput.value = data.maxAllowed;
+                        }
+                    }
+                } catch (err) {
+                    console.error('Fetch error:', err);
+                    showCartNotification('Lỗi kết nối, không thể cập nhật giỏ hàng.', true);
+                } finally {
+                    // re-enable controls
+                    controls.forEach(c => c.disabled = false);
+                }
+            }
+
+            // Clamp helper
+            function clampValue(value, min, max) {
+                let n = Number(value);
+                if (isNaN(n)) n = min || 0;
+                if (min != null && n < min) n = min;
+                if (max != null && n > max) n = max;
+                return n;
+            }
+
+            // Stepper buttons
+            document.querySelectorAll('.stepper-btn').forEach(button => {
+                button.addEventListener('click', function (e) {
+                    const form = this.closest('form');
+                    if (!form) return;
+                    const input = form.querySelector('.qty-input');
+                    if (!input) return;
+
+                    const currentVal = parseInt(input.value, 10) || 0;
+                    const amount = parseInt(this.dataset.amount, 10) || 0;
+
+                    const min = input.hasAttribute('min') ? parseInt(input.getAttribute('min'), 10) : 0;
+                    const max = input.hasAttribute('max') ? parseInt(input.getAttribute('max'), 10) : null;
+
+                    const newVal = clampValue(currentVal + amount, min, max);
+                    if (newVal === currentVal) return; // nothing changed
+
+                    input.value = newVal;
+                    submitCartForm(form);
+                });
+            });
+
+            // Per-input debounce for manual changes (each input keeps its own timer)
+            document.querySelectorAll('.qty-input').forEach(input => {
+                let localTimer = null;
+                input.addEventListener('input', function (e) {
+                    // immediate clamp for UX (but don't submit yet)
+                    const min = input.hasAttribute('min') ? parseInt(input.getAttribute('min'), 10) : 0;
+                    const max = input.hasAttribute('max') ? parseInt(input.getAttribute('max'), 10) : null;
+                    input.value = clampValue(input.value, min, max);
+
+                    clearTimeout(localTimer);
+                    localTimer = setTimeout(() => {
+                        const form = input.closest('form');
+                        if (form) submitCartForm(form);
+                    }, 800);
+                });
+
+                // Also treat 'change' for finalization (older browsers)
+                input.addEventListener('change', function () {
+                    clearTimeout(localTimer);
+                    const form = input.closest('form');
+                    if (form) submitCartForm(form);
+                });
+            });
+
+            // Remove item forms
+            document.querySelectorAll('.remove-item-form').forEach(form => {
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    if (confirm('Bạn có chắc muốn xóa sản phẩm này?')) {
+                        submitCartForm(form);
+                    }
+                });
+            });
+
+        });
+    </script>
+}

@@ -1,0 +1,196 @@
+﻿@using MusicShop.Common.ViewModels
+@model CheckoutViewModel
+@{
+    ViewData["Title"] = "Thanh toán";
+}
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="page-title d-flex align-items-center">
+                <i class="bi bi-shield-check-fill me-3 fs-1 text-primary" aria-hidden="true"></i>
+                <span>Thanh toán & Giao hàng</span>
+            </h2>
+        </div>
+    </div>
+
+    @if (Model.Cart == null || !Model.Cart.Items.Any())
+    {
+        <div class="col-12">
+            <div class="content-card text-center p-5">
+                <i class="bi bi-cart-x" style="font-size: 4rem; color: var(--theme-text-muted);" aria-hidden="true"></i>
+                <h4 class="mt-3">Giỏ hàng của bạn đang trống</h4>
+                <p class="text-muted">Bạn không thể thanh toán khi chưa có sản phẩm nào.</p>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-primary btn-lg shadow-sm mt-3">
+                    <i class="bi bi-arrow-left me-2"></i> Tiếp tục mua sắm
+                </a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <form asp-action="Index" method="post" id="checkout-form">
+                    @Html.AntiForgeryToken()
+
+                    <div class="content-card mb-4">
+                        <h4 class="mb-3">1. Thông tin giao hàng</h4>
+                        <div class="row g-3">
+                            <div class="col-md-6 mb-2">
+                                <label asp-for="Address.Name" class="auth-form-label">Họ và tên</label>
+                                <input asp-for="Address.Name" class="auth-form-input form-control" placeholder="Nguyễn Văn A" />
+                                <span asp-validation-for="Address.Name" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label asp-for="Address.Phone" class="auth-form-label">Số điện thoại</label>
+                                <input asp-for="Address.Phone" class="auth-form-input form-control" placeholder="09xxxxxxx" />
+                                <span asp-validation-for="Address.Phone" class="text-danger"></span>
+                            </div>
+                            <div class="col-12 mb-2">
+                                <label asp-for="Address.AddressFull" class="auth-form-label">Địa chỉ</label>
+                                <textarea asp-for="Address.AddressFull" class="auth-form-input form-control" rows="3" placeholder="Số nhà, tên đường, phường/xã, quận/huyện, tỉnh/thành phố..."></textarea>
+                                <span asp-validation-for="Address.AddressFull" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <h4 class="mb-3">2. Phương thức thanh toán</h4>
+                        <div class="payment-method-options">
+
+                            <div class="form-check payment-option">
+                                <input class="form-check-input" type="radio" asp-for="PaymentMethod" value="CashOnDelivery" id="payment-cod" checked />
+                                <label class="form-check-label w-100" for="payment-cod">
+                                    <span class="payment-option-title">
+                                        <i class="bi bi-cash-coin me-2"></i> Thanh toán khi nhận hàng (COD)
+                                    </span>
+                                    <span class="payment-option-desc">
+                                        Thanh toán bằng tiền mặt cho nhân viên giao hàng.
+                                    </span>
+                                </label>
+                            </div>
+
+                            <div class="form-check payment-option">
+                                <input class="form-check-input" type="radio" asp-for="PaymentMethod" value="OnlineCard" id="payment-online" />
+                                <label class="form-check-label w-100" for="payment-online">
+                                    <span class="payment-option-title">
+                                        <i class="bi bi-credit-card-2-front-fill me-2"></i> Thanh toán Online
+                                    </span>
+                                    <span class="payment-option-desc">
+                                        Thẻ ATM nội địa, Thẻ quốc tế (Visa, Master, JCB), Ví điện tử.
+                                    </span>
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="cart-summary-sticky">
+                    <div class="content-card">
+                        <h4 class="mb-3">Tóm tắt đơn hàng</h4>
+
+                        <div class="checkout-item-list mb-3">
+                            @foreach (var it in Model.Cart.Items)
+                            {
+                                <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom">
+                                    <div>
+                                        <span class="fw-bold d-block" style="color: var(--theme-text-dark);">@it.ItemName</span>
+                                        <small class="text-muted">SL: @it.Qty x @it.UnitPrice.ToString("N0")đ</small>
+                                    </div>
+                                    <span class="fw-bold ms-2" style="color: var(--theme-text-dark);">@it.LineTotal.ToString("N0")đ</span>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Tạm tính</span>
+                            <span class="fw-bold" style="color: var(--theme-text-dark);">@Model.Cart.Total.ToString("N0")đ</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <span class="text-muted">Phí vận chuyển</span>
+                            <span class="fw-bold text-success">Miễn phí</span>
+                        </div>
+                        <hr class="my-3" style="border-color: var(--theme-border);">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="fw-bold fs-5" style="color: var(--theme-text-dark);">Tổng cộng</span>
+                            <span class="fw-bold fs-4 text-primary">@Model.Cart.Total.ToString("N0")đ</span>
+                        </div>
+
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-primary btn-auth" form="checkout-form">
+                                Hoàn tất Đơn hàng
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<style>
+    /*
+         * Tinh chỉnh style cho .auth-form-input khi dùng cho textarea
+         * (Ghi đè height: 50px từ theme.css)
+        */
+    textarea.auth-form-input {
+        height: auto;
+        padding-top: 0.85rem;
+        padding-bottom: 0.85rem;
+    }
+
+    .payment-option {
+        border: 1px solid var(--theme-border, #dee2e6); /* Dùng biến theme-border */
+        border-radius: 0.5rem;
+        padding: 1rem;
+        margin-bottom: 0.75rem;
+        transition: all 0.2s ease-in-out;
+    }
+
+        /*
+         * Cập nhật màu active để khớp với --theme-primary
+         * Hex #4F46E5 -> RGB 79, 70, 229
+        */
+        .payment-option:has(.form-check-input:checked),
+        .payment-option:hover {
+            border-color: var(--theme-primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15); /* Dùng RGB của --theme-primary */
+        }
+
+    .payment-option-title {
+        font-weight: 600;
+        font-size: 1.05rem;
+        color: var(--theme-text-dark); /* Dùng biến theme-text-dark */
+        display: flex;
+        align-items: center;
+    }
+
+    .payment-option-desc {
+        font-size: 0.9rem;
+        color: var(--theme-text-muted); /* Dùng biến theme-text-muted */
+        display: block;
+        margin-top: 0.25rem;
+        padding-left: 1.75rem;
+    }
+
+    .form-check-input {
+        margin-top: 0.3rem;
+    }
+
+    .form-check-label {
+        cursor: pointer;
+    }
+
+    .checkout-item-list {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+</style>
